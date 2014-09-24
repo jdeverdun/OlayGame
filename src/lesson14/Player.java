@@ -6,6 +6,8 @@
  */
 package lesson14;
 
+import lesson14.Olay.GameMode;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -21,20 +23,41 @@ import org.newdawn.slick.SpriteSheet;
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
 public class Player {
-
-    private float x = 300, y = 300;
+	private static int gID = 0;
+    private float x = 100, y = 300;
     private boolean onStair = false;
     private Animation[] animations = new Animation[8];
     private float dx = 0, dy = 0;
-
+    private int id;
     private Map map;
+    
+    // bot life
+    private BotStatus status = BotStatus.None;
+    private float arrivalX = Float.MAX_VALUE;
+    private int dureePause = 0;
+    
+    
+    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dead,None};// que fait le bot
 
     public Player(Map map) {
         this.map = map;
+        this.id = gID;
+        gID++;
+    }
+    public Player(Player p) {// pour copy
+        this.map = p.map;
+        this.x = p.x;
+        this.y = p.y;
+        this.onStair = p.onStair;
+        this.animations = p.animations;
+        this.dx = p.dx;
+        this.dy = p.dy;
+        this.id = gID;
+        gID++;
     }
 
     public void init() throws SlickException {
-        SpriteSheet spriteSheet = new SpriteSheet("sprites/character.png", 64, 64);
+        /*SpriteSheet spriteSheet = new SpriteSheet("sprites/character.png", 64, 64);
         this.animations[0] = loadAnimation(spriteSheet, 0, 1, 0);
         this.animations[1] = loadAnimation(spriteSheet, 0, 1, 1);
         this.animations[2] = loadAnimation(spriteSheet, 0, 1, 2);
@@ -42,10 +65,20 @@ public class Player {
         this.animations[4] = loadAnimation(spriteSheet, 1, 9, 0);
         this.animations[5] = loadAnimation(spriteSheet, 1, 9, 1);
         this.animations[6] = loadAnimation(spriteSheet, 1, 9, 2);
-        this.animations[7] = loadAnimation(spriteSheet, 1, 9, 3);
+        this.animations[7] = loadAnimation(spriteSheet, 1, 9, 3);*/
+    	
+    	/*SpriteSheet spriteSheet = new SpriteSheet("sprites/character2.png", 64, 64);
+        this.animations[0] = loadAnimation(spriteSheet, 0, 1, 8);
+        this.animations[1] = loadAnimation(spriteSheet, 0, 1, 9);
+        this.animations[2] = loadAnimation(spriteSheet, 0, 1, 10);
+        this.animations[3] = loadAnimation(spriteSheet, 0, 1, 11);
+        this.animations[4] = loadAnimation(spriteSheet, 1, 9, 8);
+        this.animations[5] = loadAnimation(spriteSheet, 1, 9, 9);
+        this.animations[6] = loadAnimation(spriteSheet, 1, 9, 10);
+        this.animations[7] = loadAnimation(spriteSheet, 1, 9, 11);*/
     }
 
-    private Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
+    public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
         Animation animation = new Animation();
         for (int x = startX; x < endX; x++) {
             animation.addFrame(spriteSheet.getSprite(x, y), 100);
@@ -56,11 +89,45 @@ public class Player {
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval((int) x - 16, (int) y - 8, 32, 16);
-        g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32,
-                (int) y - 60);
+        if(status == BotStatus.Dead)
+        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
+        else
+        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+        
     }
 
     public void update(int delta) {
+    	if(status == BotStatus.Dead){
+    		this.setDx(0.0f);
+    		this.setDy(0.0f);
+    		return;
+    	}
+        // bot ia
+        if(status != BotStatus.None){
+        	switch(status){
+        	case MoveRight:
+        		if(this.x>=arrivalX){
+        			status = BotStatus.None;
+    	        	arrivalX = Float.MAX_VALUE;
+    	        	dureePause = 0;
+    	        	this.setDx(0.0f);
+        		}else{
+        			this.setDx(0.3f);
+        		}
+        		break;
+        	case Wait:
+        		if(dureePause <= 0){
+        			status = BotStatus.None;
+		        	arrivalX = Float.MAX_VALUE;
+		        	dureePause = 0;
+		        	this.setDx(0.0f);
+        		}else{
+        			dureePause--;
+        			this.setDx(0.0f);
+        		}
+        		break;
+        	}
+        }
         if (this.isMoving()) {
             float futurX = getFuturX(delta);
             float futurY = getFuturY(delta);
@@ -71,7 +138,11 @@ public class Player {
                 this.x = futurX;
                 this.y = futurY;
             }
+            
+            
         }
+
+    	
     }
 
     private float getFuturX(int delta) {
@@ -103,7 +174,7 @@ public class Player {
     }
 
     public int getDirection() {
-        int direction = 0;
+        int direction = 3;
         if (dx > 0 && dx >= Math.abs(dy)) {
             direction = 3;
         } else if (dx < 0 && -dx >= Math.abs(dy)) {
@@ -150,5 +221,50 @@ public class Player {
     public void setDy(float dy) {
         this.dy = dy;
     }
+
+	public Animation[] getAnimations() {
+		return animations;
+	}
+
+	public void setAnimations(Animation[] animations) {
+		this.animations = animations;
+	}
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	public boolean isAwaitingOrder() {
+		// TODO Auto-generated method stub
+		return status==BotStatus.None;
+	}
+	public void randomOrder(GameMode currentGameMode) {
+
+		// pause ou bouge ?
+		if(Math.random()<0.6){
+			status = BotStatus.Wait;
+			dureePause = 1 + (int)(Math.random() * ((5000 - 1) + 1));
+		}else{
+			// duree du mouvement
+			float distance = 1 + (int)(Math.random() * ((150 - 1) + 1));
+			arrivalX = getX() + distance;
+			switch(currentGameMode){
+			case Run1:
+				status = BotStatus.MoveRight;
+				break;
+			}
+		}
+		
+	}
+	public void kill() {
+		status = BotStatus.Dead;
+	}
 
 }

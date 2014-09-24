@@ -19,13 +19,14 @@ public class Camera {
 
     public Camera(Player player) {
         this.player = player;
-        this.xCamera = player.getX();
-        this.yCamera = player.getY();
+        this.xCamera = 624.0f;//player.getX();
+        this.yCamera = 832.0f;//player.getY();
     }
 
     public void place(GameContainer container, Graphics g) {
         g.translate(container.getWidth() / 2 - (int) this.xCamera, container.getHeight() / 2
                 - (int) this.yCamera);
+        System.out.println("ge");
     }
 
     public void update(GameContainer container) {
