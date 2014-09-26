@@ -75,7 +75,7 @@
    H4sIAAAAAAAAC+3XIQ4AMAjFUHZrjr/MIjAVsKRNvsA9S8TO8kwL+qrv3dvWeafTx9LH0sfSx9LH0sfSx9LH0sfSx9LH+uX/vcztXpPgEAAA
   </data>
  </layer>
- <objectgroup name="trigger" width="144" height="883">
-  <object name="go-map-1" type="change-map" x="1120" y="1" width="144" height="883"/>
+ <objectgroup name="trigger"  width="144" height="883">
+  <object name="win-zone" type="win-game" x="1120" y="1" width="144" height="883"/>
  </objectgroup>
 </map>
