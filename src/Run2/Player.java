@@ -41,19 +41,19 @@ public class Player {
     private int dureePause = 0;
 	private boolean isWinner = false;
     
-	// dance
+	private boolean isDancing = false;
 	private int dance = 0;
-    private int dec = 0;
-    private int timerToDance = 0;
-    private int danceDuration = 500;
-    
-    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dead,None};// que fait le bot
+	private int dec = 0;
+	
+    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
 
     public Player(Map map) {
         this.map = map;
         isWinner = false;
         isPlayer = false;
         cursor = null;
+        dance = 0;
+        isDancing = false;
         setAvailableShot(2);
         
     }
@@ -111,7 +111,7 @@ public class Player {
 	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
         }
         if(!isPlayer()){
-        	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<500)){
+        	if(isDancing()){
 		        if(dance>25)
 		        	g.drawAnimation(animations[5], (int) x - 32, (int) y - 60);
 		        else
@@ -121,17 +121,9 @@ public class Player {
 		        	else if(dance==0)
 		        		dec=-1;
 		    	dance = dance-dec;
-		    	danceDuration--;
-		    	timerToDance = 500;
-		    	g.drawString("Dance duration : "+danceDuration, 600, 400);
+		    	Hud.MANA_WIDTH_PERC = (((float)dance/50.0f)/0.5f)/(10.0f/0.5f);
         	}else{
-        		if(danceDuration == 0){
-        			timerToDance--;
-        			g.drawString("Next dance : "+timerToDance, 600, 400);
-        			dance = 0;
-        		}
-        		if(timerToDance == 0)
-        			danceDuration = 500;
+        		dance = 0;
         		if(status == BotStatus.Dead)
     	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
     	        else
@@ -141,7 +133,8 @@ public class Player {
     }
 
     public void update(int delta) {
-    	if(status == BotStatus.Dead || (danceDuration > 0 && danceDuration<500)){
+    	if(status == BotStatus.Dead || (!isPlayer() && isDancing()) || (isPlayer() && isDancing() && this.dx>0.01f)){// ||
+    			//(isPlayer() && !isDancing() && this.dx<0.01f)){
     		this.setDx(0.0f);
     		this.setDy(0.0f);
     		return;
@@ -335,6 +328,8 @@ public class Player {
 	    dureePause = 0;
 		isWinner = false;
 		numPlayer = -1;
+		dance = 0;
+        isDancing = false;
 		setAvailableShot(2);
 	}
 	/**
@@ -366,6 +361,12 @@ public class Player {
 	 */
 	public void setAvailableShot(int availableShot) {
 		this.availableShot = availableShot;
+	}
+	public boolean isDancing() {
+		return isDancing;
+	}
+	public void setDancing(boolean isDancing) {
+		this.isDancing = isDancing;
 	}
 
 }

@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import lesson14.Hud;
+
 import lesson14.States;
 
 import org.newdawn.slick.AppGameContainer;
@@ -54,7 +54,12 @@ public class Run2 extends BasicGameState {
     public enum GameMode{Run1,Run2};
 
    
-
+	// dance
+	private boolean dance = false;
+    private int timerToDance = 0;
+    private int danceDuration = 500;
+    
+    
     public Run2(int numPlayers) {
         this.numPlayers = numPlayers;
         resetAll(numPlayers);
@@ -109,7 +114,7 @@ public class Run2 extends BasicGameState {
 	        }
         }
         this.map.renderForeground();
-        //this.hud.render(g);
+        this.hud.render(g);
         // cursor
         for(Player player:characters){
         	if(player.getCursor() != null)
@@ -123,6 +128,15 @@ public class Run2 extends BasicGameState {
         	else
         		if(startTimer > 0)
                 	g.drawString("1", 500, 500);
+        		else
+        			if(dance){
+        	        	g.drawString("Dance duration : "+danceDuration, 600, 400);
+        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)danceDuration)/500.0f;
+        			}else{
+        	        	g.drawString("Next dance : "+timerToDance, 600, 400);
+        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)timerToDance)/500.0f;
+        			}
+        
     }
     
     /**
@@ -148,7 +162,7 @@ public class Run2 extends BasicGameState {
         CharactersTools.init(characters);
         for(Player player:characters)
 	        player.init();
-        //this.hud.init();
+        this.hud.init();
         for(PlayerController contr:controller){
         	contr.setInput(container.getInput());
         	container.getInput().addKeyListener(contr);
@@ -158,6 +172,20 @@ public class Run2 extends BasicGameState {
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
+    	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<500)){
+	        dance = true;
+	    	danceDuration--;
+	    	timerToDance = 500;
+	    	
+    	}else{
+    		if(danceDuration == 0){
+    			timerToDance--;
+    			dance = false;
+    		}
+    		if(timerToDance == 0)
+    			danceDuration = 500;
+    	}
+    	
     	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE))
         	s.enterState(States.MENU);
     	for(PlayerController contr:controller)
@@ -169,6 +197,7 @@ public class Run2 extends BasicGameState {
         if(startTimer == 0 && stopTimer == -1){
         	int count = 0;
 	        for(Player player:characters){
+	        	player.setDancing(dance);
 	        	if(count>0 && player.isAwaitingOrder()){
 	        		player.randomOrder();
 	        	}

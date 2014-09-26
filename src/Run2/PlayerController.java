@@ -110,8 +110,8 @@ public class PlayerController implements KeyListener,MouseListener {
     }
     public void update() {
         if (input.getControllerCount() > 0) {
-            player.setDx(input.getAxisValue(0, 1));
-            player.setDy(input.getAxisValue(0, 2));
+            //player.setDx(input.getAxisValue(0, 1));
+            //player.setDy(input.getAxisValue(0, 2));
         }
     }
 
@@ -137,9 +137,10 @@ public class PlayerController implements KeyListener,MouseListener {
 
     @Override
     public void keyPressed(int key, char c) {
-    	if(key == up_local)
-    		return;
-    	else if(key == down_local)
+    	if(key == up_local){
+    		this.player.setDx(0.0f);
+    		this.player.setDy(0.0f);
+    	}else if(key == down_local)
     		this.player.setDx(0.3f);
     	else if(key == right_local)
     		this.player.setDx(0.0001f);

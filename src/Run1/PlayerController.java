@@ -110,8 +110,8 @@ public class PlayerController implements KeyListener,MouseListener {
     }
     public void update() {
         if (input.getControllerCount() > 0) {
-            player.setDx(input.getAxisValue(0, 1));
-            player.setDy(input.getAxisValue(0, 2));
+            //player.setDx(input.getAxisValue(0, 1));
+            //player.setDy(input.getAxisValue(0, 2));
         }
     }
 
