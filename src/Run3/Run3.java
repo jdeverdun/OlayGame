@@ -4,14 +4,14 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a- C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- !y-
  */
-package Run2;
+package Run3;
 
 import java.awt.Menu;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+import lesson14.Hud;
 import lesson14.States;
 
 import org.newdawn.slick.AppGameContainer;
@@ -24,12 +24,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Run2.Camera;
-import Run2.CharactersTools;
-import Run2.Player.BotStatus;
+import Run3.Player.BotStatus;
 
-
-/** DANCE
+/**
  * Code sous licence GPLv3 (http://www.gnu.org/licenses/gpl.html)
  * 
  * -Djava.library.path=target/natives
@@ -37,30 +34,26 @@ import Run2.Player.BotStatus;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class Run2 extends BasicGameState {
+public class Run3 extends BasicGameState {
 
 	private int numberOfChar = 30;
     private GameContainer container;
     private Map map = new Map();
     private ArrayList<Player> characters;
     private ArrayList<TriggerController> triggers;
+    private DisturbPlayer disturber;
     private Camera camera;
     private ArrayList<PlayerController> controller;
     private Hud hud = new Hud();
     private int startTimer = 180;
     private int stopTimer = -1;
-    private GameMode currentGameMode = GameMode.Run2;
+    private GameMode currentGameMode = GameMode.Run3;
     private int numPlayers;
-    public enum GameMode{Run1,Run2};
+    public enum GameMode{Run1, Run3};
 
    
-	// dance
-	private boolean dance = false;
-    private int timerToDance = 0;
-    private int danceDuration = 500;
-    
-    
-    public Run2(int numPlayers) {
+
+    public Run3(int numPlayers) {
         this.numPlayers = numPlayers;
         resetAll(numPlayers);
     }
@@ -85,7 +78,8 @@ public class Run2 extends BasicGameState {
 			triggers.add(new TriggerController(map, characters.get(i)));
 		}
 		camera = new Camera(characters.get(0));
-		
+		// disturber he man
+		disturber = new DisturbPlayer(map);
 		startTimer = 180;
 		stopTimer = -1;
     }
@@ -114,7 +108,7 @@ public class Run2 extends BasicGameState {
 	        }
         }
         this.map.renderForeground();
-        this.hud.render(g);
+        //this.hud.render(g);
         // cursor
         for(Player player:characters){
         	if(player.getCursor() != null)
@@ -128,15 +122,7 @@ public class Run2 extends BasicGameState {
         	else
         		if(startTimer > 0)
                 	g.drawString("1", 500, 500);
-        		else
-        			if(dance){
-        	        	//g.drawString("Dance duration : "+danceDuration, 600, 400);
-        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)danceDuration)/500.0f;
-        			}else{
-        	        	//g.drawString("Next dance : "+timerToDance, 600, 400);
-        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)timerToDance)/500.0f;
-        			}
-        
+        disturber.render(g);
     }
     
     /**
@@ -162,44 +148,32 @@ public class Run2 extends BasicGameState {
         CharactersTools.init(characters);
         for(Player player:characters)
 	        player.init();
-        this.hud.init();
+        //this.hud.init();
         for(PlayerController contr:controller){
         	contr.setInput(container.getInput());
         	container.getInput().addKeyListener(contr);
         	container.getInput().addMouseListener(contr);
         }
+        disturber.init();
     }
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
-    	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<500)){
-	        dance = true;
-	    	danceDuration--;
-	    	timerToDance = 500;
-	    	
-    	}else{
-    		if(danceDuration == 0){
-    			timerToDance--;
-    			dance = false;
-    		}
-    		if(timerToDance == 0)
-    			danceDuration = 500;
-    	}
-    	
-    	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE))
+    	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
+    		disturber.stopMusic();
         	s.enterState(States.MENU);
+    	}
     	for(PlayerController contr:controller)
     		contr.update();
     	for(TriggerController tri:triggers)
     		tri.update();
     	if(stopTimer == 0)
-    		s.enterState(States.GAME_RUN2);
+    		s.enterState(States.GAME_RUN3);
         if(startTimer == 0 && stopTimer == -1){
         	int count = 0;
 	        for(Player player:characters){
-	        	player.setDancing(dance);
 	        	if(count>0 && player.isAwaitingOrder()){
-	        		player.randomOrder();
+	        		player.randomOrder(currentGameMode);
 	        	}
 	        	player.update(delta);
 	        	count++;
@@ -215,6 +189,7 @@ public class Run2 extends BasicGameState {
         	if(stopTimer > 0)
         		stopTimer--;
         }
+        disturber.update(delta);
     	
        //this.camera.update(container);
     }
@@ -222,6 +197,6 @@ public class Run2 extends BasicGameState {
     
     @Override
     public int getID(){
-    	return States.GAME_RUN2;
+    	return States.GAME_RUN3;
     }
 }

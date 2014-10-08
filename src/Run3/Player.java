@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-package Run2;
+package Run3;
 
 
 import org.newdawn.slick.Animation;
@@ -13,7 +13,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import Run2.Run2.GameMode;
+import Run3.Run3.GameMode;
 
 
 /**
@@ -41,19 +41,14 @@ public class Player {
     private int dureePause = 0;
 	private boolean isWinner = false;
     
-	private boolean isDancing = false;
-	private int dance = 0;
-	private int dec = 0;
-	
-    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
+    
+    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dead,None};// que fait le bot
 
     public Player(Map map) {
         this.map = map;
         isWinner = false;
         isPlayer = false;
         cursor = null;
-        dance = 0;
-        isDancing = false;
         setAvailableShot(2);
         
     }
@@ -104,41 +99,15 @@ public class Player {
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval((int) x - 16, (int) y - 8, 32, 16);
-        if(isPlayer()){
-	        if(status == BotStatus.Dead)
-	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-	        else
-	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
-        }
-        if(!isPlayer()){
-        	if(isDancing()){
-		        if(dance>25)
-		        	g.drawAnimation(animations[5], (int) x - 32, (int) y - 60);
-		        else
-		        	g.drawAnimation(animations[7], (int) x - 32, (int) y - 60);
-		        if(dance==50)
-		        	dec = 1;
-		        	else if(dance==0)
-		        		dec=-1;
-		    	dance = dance-dec;
-		    	Hud.MANA_WIDTH_PERC = ((float)dance/50.0f);
-		    	if(Hud.MANA_WIDTH_PERC<=0.5f)
-		    		Hud.MANA_WIDTH_PERC += 0.5f;
-		    	else
-		    		Hud.MANA_WIDTH_PERC -= 0.5f;
-        	}else{
-        		dance = 0;
-        		if(status == BotStatus.Dead)
-    	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-    	        else
-    	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
-        	}
-        }
+        if(status == BotStatus.Dead)
+        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
+        else
+        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+        
     }
 
     public void update(int delta) {
-    	if(status == BotStatus.Dead || (!isPlayer() && isDancing()) || (isPlayer() && isDancing() && this.dx>0.01f)){// ||
-    			//(isPlayer() && !isDancing() && this.dx<0.01f)){
+    	if(status == BotStatus.Dead){
     		this.setDx(0.0f);
     		this.setDy(0.0f);
     		return;
@@ -276,7 +245,7 @@ public class Player {
 		// TODO Auto-generated method stub
 		return status==BotStatus.None;
 	}
-	public void randomOrder() {
+	public void randomOrder(GameMode currentGameMode) {
 
 		// pause ou bouge ?
 		if(Math.random()<0.6){
@@ -286,7 +255,11 @@ public class Player {
 			// duree du mouvement
 			float distance = 1 + (int)(Math.random() * ((150 - 1) + 1));
 			arrivalX = getX() + distance;
-			status = BotStatus.MoveRight;
+			switch(currentGameMode){
+			case Run3:
+				status = BotStatus.MoveRight;
+				break;
+			}
 		}
 		
 	}
@@ -332,8 +305,6 @@ public class Player {
 	    dureePause = 0;
 		isWinner = false;
 		numPlayer = -1;
-		dance = 0;
-        isDancing = false;
 		setAvailableShot(2);
 	}
 	/**
@@ -365,12 +336,6 @@ public class Player {
 	 */
 	public void setAvailableShot(int availableShot) {
 		this.availableShot = availableShot;
-	}
-	public boolean isDancing() {
-		return isDancing;
-	}
-	public void setDancing(boolean isDancing) {
-		this.isDancing = isDancing;
 	}
 
 }

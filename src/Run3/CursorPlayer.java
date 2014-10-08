@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-package Run2;
+package Run3;
 
 
 import org.newdawn.slick.Animation;
@@ -13,8 +13,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import Run2.Run2.GameMode;
-
+import Run1.Run1.GameMode;
 
 /**
  * Code sous licence GPLv3 (http://www.gnu.org/licenses/gpl.html)
@@ -24,40 +23,29 @@ import Run2.Run2.GameMode;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class Player {
+public class CursorPlayer {
     private float x = 100, y = 300;
     private boolean onStair = false;
     private Animation[] animations = new Animation[8];
     private float dx = 0, dy = 0;
     private Map map;
     private boolean isPlayer = false;
-    private CursorPlayer cursor;
-    // joueur
-    private int numPlayer = -1;
-    private int availableShot = 2;
     // bot life
-    private BotStatus status = BotStatus.None;
+    private CursorStatus status = CursorStatus.None;
     private float arrivalX = Float.MAX_VALUE;
     private int dureePause = 0;
 	private boolean isWinner = false;
     
-	private boolean isDancing = false;
-	private int dance = 0;
-	private int dec = 0;
-	
-    public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
+    
+    public enum CursorStatus{Disabled,Enabled,None};// que fait le bot
 
-    public Player(Map map) {
+    public CursorPlayer(Map map) {
         this.map = map;
+        status = CursorStatus.Enabled;
         isWinner = false;
         isPlayer = false;
-        cursor = null;
-        dance = 0;
-        isDancing = false;
-        setAvailableShot(2);
-        
     }
-    public Player(Player p) {// pour copy
+    public CursorPlayer(CursorPlayer p) {// pour copy
         this.map = p.map;
         this.x = p.x;
         this.y = p.y;
@@ -67,20 +55,12 @@ public class Player {
         this.dy = p.dy;
         this.isWinner = p.isWinner;
         this.isPlayer = p.isPlayer;
-        this.cursor = p.cursor;
-        setAvailableShot(2);
+        this.status = p.status;
     }
 
     public void init() throws SlickException {
-        /*SpriteSheet spriteSheet = new SpriteSheet("sprites/character.png", 64, 64);
+        SpriteSheet spriteSheet = new SpriteSheet("sprites/cursor/crosshair.png", 64, 64);
         this.animations[0] = loadAnimation(spriteSheet, 0, 1, 0);
-        this.animations[1] = loadAnimation(spriteSheet, 0, 1, 1);
-        this.animations[2] = loadAnimation(spriteSheet, 0, 1, 2);
-        this.animations[3] = loadAnimation(spriteSheet, 0, 1, 3);
-        this.animations[4] = loadAnimation(spriteSheet, 1, 9, 0);
-        this.animations[5] = loadAnimation(spriteSheet, 1, 9, 1);
-        this.animations[6] = loadAnimation(spriteSheet, 1, 9, 2);
-        this.animations[7] = loadAnimation(spriteSheet, 1, 9, 3);*/
     	
     	/*SpriteSheet spriteSheet = new SpriteSheet("sprites/character2.png", 64, 64);
         this.animations[0] = loadAnimation(spriteSheet, 0, 1, 8);
@@ -104,72 +84,16 @@ public class Player {
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval((int) x - 16, (int) y - 8, 32, 16);
-        if(isPlayer()){
-	        if(status == BotStatus.Dead)
-	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-	        else
-	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
-        }
-        if(!isPlayer()){
-        	if(isDancing()){
-		        if(dance>25)
-		        	g.drawAnimation(animations[5], (int) x - 32, (int) y - 60);
-		        else
-		        	g.drawAnimation(animations[7], (int) x - 32, (int) y - 60);
-		        if(dance==50)
-		        	dec = 1;
-		        	else if(dance==0)
-		        		dec=-1;
-		    	dance = dance-dec;
-		    	Hud.MANA_WIDTH_PERC = ((float)dance/50.0f);
-		    	if(Hud.MANA_WIDTH_PERC<=0.5f)
-		    		Hud.MANA_WIDTH_PERC += 0.5f;
-		    	else
-		    		Hud.MANA_WIDTH_PERC -= 0.5f;
-        	}else{
-        		dance = 0;
-        		if(status == BotStatus.Dead)
-    	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-    	        else
-    	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
-        	}
-        }
+        if(status == CursorStatus.Enabled)// masquer skin
+        	g.drawAnimation(animations[0], (int) x - 32, (int) y - 32);
+        
     }
 
     public void update(int delta) {
-    	if(status == BotStatus.Dead || (!isPlayer() && isDancing()) || (isPlayer() && isDancing() && this.dx>0.01f)){// ||
-    			//(isPlayer() && !isDancing() && this.dx<0.01f)){
+    	if(status == CursorStatus.Disabled){
     		this.setDx(0.0f);
     		this.setDy(0.0f);
     		return;
-    	}
-        // bot ia
-    	if(!isPlayer){
-	        if(status != BotStatus.None){
-	        	switch(status){
-	        	case MoveRight:
-	        		if(this.x>=arrivalX){
-	        			status = BotStatus.None;
-	    	        	arrivalX = Float.MAX_VALUE;
-	    	        	dureePause = 0;
-	    	        	this.setDx(0.0f);
-	        		}else{
-	        			this.setDx(0.3f);
-	        		}
-	        		break;
-	        	case Wait:
-	        		if(dureePause <= 0){
-	        			status = BotStatus.None;
-			        	arrivalX = Float.MAX_VALUE;
-			        	dureePause = 0;
-			        	this.setDx(0.0f);
-	        		}else{
-	        			dureePause--;
-	        			this.setDx(0.0f);
-	        		}
-	        		break;
-	        	}
-	        }
     	}
         if (this.isMoving()) {
             float futurX = getFuturX(delta);
@@ -184,6 +108,7 @@ public class Player {
             
             
         }
+
     	
     }
 
@@ -272,32 +197,9 @@ public class Player {
 		this.animations = animations;
 	}
 
-	public boolean isAwaitingOrder() {
-		// TODO Auto-generated method stub
-		return status==BotStatus.None;
-	}
-	public void randomOrder() {
 
-		// pause ou bouge ?
-		if(Math.random()<0.6){
-			status = BotStatus.Wait;
-			dureePause = 1 + (int)(Math.random() * ((2000 - 1) + 1));
-		}else{
-			// duree du mouvement
-			float distance = 1 + (int)(Math.random() * ((150 - 1) + 1));
-			arrivalX = getX() + distance;
-			status = BotStatus.MoveRight;
-		}
-		
-	}
-	public CursorPlayer getCursor() {
-		return cursor;
-	}
-	public void setCursor(CursorPlayer cursor) {
-		this.cursor = cursor;
-	}
-	public void kill() {
-		status = BotStatus.Dead;
+	public void disable() {
+		status = CursorStatus.Disabled;
 	}
 	public void setIsWinner(boolean b) {
 		isWinner  = true;
@@ -311,15 +213,6 @@ public class Player {
 	}
 	public void setPlayer(boolean isPlayer) {
 		this.isPlayer = isPlayer;
-		if(isPlayer){
-			cursor = new CursorPlayer(map);
-			try {
-				cursor.init();
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 	public void reset() {
 		x = 100;
@@ -327,50 +220,10 @@ public class Player {
 	    onStair = false;
 	    dx = 0;
 	    dy = 0;
-	    status = BotStatus.None;
+	    status = CursorStatus.Enabled;
 	    arrivalX = Float.MAX_VALUE;
 	    dureePause = 0;
 		isWinner = false;
-		numPlayer = -1;
-		dance = 0;
-        isDancing = false;
-		setAvailableShot(2);
-	}
-	/**
-	 * @return the numPlayer
-	 */
-	public int getNumPlayer() {
-		return numPlayer;
-	}
-	/**
-	 * @param numPlayer the numPlayer to set
-	 */
-	public void setNumPlayer(int numPlayer) {
-		this.numPlayer = numPlayer;
-	}
-	public BotStatus getStatus() {
-		return status;
-	}
-	public void setStatus(BotStatus status) {
-		this.status = status;
-	}
-	/**
-	 * @return the availableShot
-	 */
-	public int getAvailableShot() {
-		return availableShot;
-	}
-	/**
-	 * @param availableShot the availableShot to set
-	 */
-	public void setAvailableShot(int availableShot) {
-		this.availableShot = availableShot;
-	}
-	public boolean isDancing() {
-		return isDancing;
-	}
-	public void setDancing(boolean isDancing) {
-		this.isDancing = isDancing;
 	}
 
 }

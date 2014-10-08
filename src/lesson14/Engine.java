@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import Run1.Run1;
 import Run2.Run2;
+import Run3.Run3;
 
 public class Engine extends StateBasedGame{
 
@@ -24,11 +25,12 @@ public class Engine extends StateBasedGame{
 		gc.setMaximumLogicUpdateInterval(60);
 		gc.setTargetFrameRate(60);
 		gc.setVSync(true);
-		//Music background = new Music("sound/love.ogg");
-        //background.loop();
+		/*Music background = new Music("sound/love.ogg");
+        background.loop();*/
 		this.addState(new Menu());
 		this.addState(new Run1(3));
 		this.addState(new Run2(3));
+		this.addState(new Run3(3));
 	}
 
 }
