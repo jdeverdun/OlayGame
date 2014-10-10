@@ -22,6 +22,7 @@ public class Menu extends BasicGameState{
         g.drawString("1. Run !!!", 50, 50);
         g.drawString("2. Run & Dance!!!", 50, 100);
         g.drawString("3. Run & be disturb!!!", 50, 150);
+        g.drawString("4. Fog War", 50, 200);
     }
  
     @Override
@@ -33,6 +34,8 @@ public class Menu extends BasicGameState{
         	game.enterState(States.GAME_RUN2);
         if(container.getInput().isKeyPressed(Input.KEY_3))
         	game.enterState(States.GAME_RUN3);
+        if(container.getInput().isKeyPressed(Input.KEY_4))
+        	game.enterState(States.GAME_FOGWAR1);
     }
  
     @Override

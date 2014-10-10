@@ -1,4 +1,4 @@
-package Run1;
+package FogWar1;
 
 import java.awt.event.MouseEvent;
 import org.newdawn.slick.MouseListener;

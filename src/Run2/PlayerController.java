@@ -47,6 +47,15 @@ public class PlayerController implements KeyListener,MouseListener {
 	public static final int CURSOR_RIGHT_PLAYER3 = 43;
 	public static final int SHOOT_PLAYER3 = Input.KEY_P;
 	
+	public static final int UP_PLAYER4 = 199;
+	public static final int DOWN_PLAYER4 = 207;
+	public static final int LEFT_PLAYER4 = 211;
+	public static final int RIGHT_PLAYER4 = 209;
+	public static final int CURSOR_UP_PLAYER4 = 181;
+	public static final int CURSOR_DOWN_PLAYER4 = 72;
+	public static final int CURSOR_LEFT_PLAYER4 = 71;
+	public static final int CURSOR_RIGHT_PLAYER4 = 73;
+	public static final int SHOOT_PLAYER4 = Input.KEY_INSERT;
 	
 	// local 
 	public int up_local;
@@ -105,6 +114,17 @@ public class PlayerController implements KeyListener,MouseListener {
         	cursor_right_local = CURSOR_RIGHT_PLAYER3;
         	cursor_left_local = CURSOR_LEFT_PLAYER3;
         	shoot_local = SHOOT_PLAYER3;
+        	break;
+        case 4:
+        	up_local = UP_PLAYER4;
+        	left_local = LEFT_PLAYER4;
+        	down_local = DOWN_PLAYER4;
+        	right_local = RIGHT_PLAYER4;
+        	cursor_up_local = CURSOR_UP_PLAYER4;
+        	cursor_down_local = CURSOR_DOWN_PLAYER4;
+        	cursor_right_local = CURSOR_RIGHT_PLAYER4;
+        	cursor_left_local = CURSOR_LEFT_PLAYER4;
+        	shoot_local = SHOOT_PLAYER4;
         	break;
         }
     }
