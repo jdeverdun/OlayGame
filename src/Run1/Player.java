@@ -249,7 +249,7 @@ public class Player {
 		// pause ou bouge ?
 		if(Math.random()<0.6){
 			status = BotStatus.Wait;
-			dureePause = 1 + (int)(Math.random() * ((2000 - 1) + 1));
+			dureePause = 1 + (int)(Math.random() * ((1800 - 1) + 1));
 		}else{
 			// duree du mouvement
 			float distance = 1 + (int)(Math.random() * ((150 - 1) + 1));

@@ -52,6 +52,7 @@ public class Run2 extends BasicGameState {
     private GameMode currentGameMode = GameMode.Run2;
     private int numPlayers;
     public enum GameMode{Run1,Run2};
+    private Music background;
 
    
 	// dance
@@ -62,6 +63,12 @@ public class Run2 extends BasicGameState {
     
     public Run2(int numPlayers) {
         this.numPlayers = numPlayers;
+        try {
+			background = new Music("sound/love.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         resetAll(numPlayers);
     }
     
@@ -88,6 +95,7 @@ public class Run2 extends BasicGameState {
 		
 		startTimer = 180;
 		stopTimer = -1;
+
     }
     
     @Override
@@ -168,6 +176,8 @@ public class Run2 extends BasicGameState {
         	container.getInput().addKeyListener(contr);
         	container.getInput().addMouseListener(contr);
         }
+		background.stop();
+	    background.play();
     }
     
     @Override
