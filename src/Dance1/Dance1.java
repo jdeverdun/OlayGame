@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a- C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- !y-
  */
-package Run2;
+package Dance1;
 
 import java.awt.Menu;
 import java.io.File;
@@ -24,9 +24,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Run2.Camera;
-import Run2.CharactersTools;
-import Run2.Player.BotStatus;
+import Dance1.Camera;
+import Dance1.CharactersTools;
+import Dance1.Player.BotStatus;
 
 
 /** DANCE
@@ -37,21 +37,23 @@ import Run2.Player.BotStatus;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class Run2 extends BasicGameState {
+public class Dance1 extends BasicGameState {
 
 	private int numberOfChar = 30;
+	private int numberOfClouds = 6;
     private GameContainer container;
     private Map map = new Map();
     private ArrayList<Player> characters;
+    private ArrayList<Cloud> clouds;
     private ArrayList<TriggerController> triggers;
     private Camera camera;
     private ArrayList<PlayerController> controller;
     private Hud hud = new Hud();
     private int startTimer = 180;
     private int stopTimer = -1;
-    private GameMode currentGameMode = GameMode.Run2;
+    private GameMode currentGameMode = GameMode.Dance1;
     private int numPlayers;
-    public enum GameMode{Run1,Run2};
+    public enum GameMode{Run1,Run2, Dance1};
     private Music background;
 
    
@@ -64,8 +66,9 @@ public class Run2 extends BasicGameState {
     private int danceDuration = (int) baseDanceDuration;
     
     
-    public Run2(int numPlayers) {
+    public Dance1(int numPlayers) {
         this.numPlayers = numPlayers;
+
         resetAll(numPlayers);
     }
     
@@ -78,6 +81,11 @@ public class Run2 extends BasicGameState {
     	characters = new ArrayList<Player>(numberOfChar);
 		for(int i = 0; i<numberOfChar; i++){
 			characters.add(new Player(map));
+		}
+		//clouds
+		clouds = new ArrayList<Cloud>(numberOfClouds);
+		for(int i = 0; i<numberOfClouds; i++){
+			clouds.add(new Cloud(map));
 		}
 		// players
 		triggers = new ArrayList<TriggerController>();
@@ -127,8 +135,13 @@ public class Run2 extends BasicGameState {
 	        	}
 	        }
         }
+
         this.map.renderForeground();
+        for(Cloud cloud:clouds){
+        	cloud.render(g);
+        }
         this.hud.render(g);
+        
         // cursor
         for(Player player:characters){
         	if(player.getCursor() != null)
@@ -183,8 +196,8 @@ public class Run2 extends BasicGameState {
         	container.getInput().addMouseListener(contr);
         }
         if(background==null)
-        	try {
-    			background = new Music("sound/love.ogg");
+            try {
+    			background = new Music("sound/Day-Dream.ogg");
     		} catch (SlickException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -216,10 +229,13 @@ public class Run2 extends BasicGameState {
     	}
     	for(PlayerController contr:controller)
     		contr.update();
+    	 for(Cloud cloud:clouds){
+    		 cloud.update(delta);
+         }
     	for(TriggerController tri:triggers)
     		tri.update();
     	if(stopTimer == 0)
-    		s.enterState(States.GAME_RUN2);
+    		s.enterState(States.GAME_DANCE1);
         if(startTimer == 0 && stopTimer == -1){
         	int count = 0;
         	// HUD
@@ -260,6 +276,6 @@ public class Run2 extends BasicGameState {
     
     @Override
     public int getID(){
-    	return States.GAME_RUN2;
+    	return States.GAME_DANCE1;
     }
 }

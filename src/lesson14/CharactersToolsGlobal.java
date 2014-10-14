@@ -16,11 +16,12 @@ import Run2.Player;
 
 
 public class CharactersToolsGlobal {
-	public static ArrayList<Animation[]> ANIMATIONS_LIST = null;
-
+	public static ArrayList<Animation[]> CHARACTER_ANIMATIONS_LIST = null;
+	public static ArrayList<Animation> CLOUD_ANIMATIONS_LIST = null;
+	
 	public static ArrayList<Animation[]> getCharAnimations(){
-		if(ANIMATIONS_LIST!=null)
-			return ANIMATIONS_LIST;
+		if(CHARACTER_ANIMATIONS_LIST!=null)
+			return CHARACTER_ANIMATIONS_LIST;
 		ArrayList<Animation[]> listanim = new ArrayList<Animation[]>();
 		try{
 			Animation[] animations = new Animation[8];
@@ -119,8 +120,7 @@ public class CharactersToolsGlobal {
 			animations[6] = loadAnimation(spriteSheet8, 1, 9, 2);
 			animations[7] = loadAnimation(spriteSheet8, 1, 9, 3);
 			listanim.add(animations);
-			ANIMATIONS_LIST = listanim;
-			System.out.println(listanim.size());
+			CHARACTER_ANIMATIONS_LIST = listanim;
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,6 +128,27 @@ public class CharactersToolsGlobal {
 		return listanim;
 	}
 
+	public static ArrayList<Animation> getCloudAnimations(){
+		if(CLOUD_ANIMATIONS_LIST!=null)
+			return CLOUD_ANIMATIONS_LIST;
+		ArrayList<Animation> listanim = new ArrayList<Animation>();
+		try{
+			Animation animations = new Animation();
+
+			SpriteSheet spriteSheet = new SpriteSheet("sprites/cloud1.png", 158, 74);
+			animations = loadAnimation(spriteSheet, 0, 1, 0);
+			listanim.add(animations);
+			SpriteSheet spriteSheet2 = new SpriteSheet("sprites/cloud2.png", 158, 74);
+			animations = loadAnimation(spriteSheet2, 0, 1, 0);
+			listanim.add(animations);
+			CLOUD_ANIMATIONS_LIST = listanim;
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listanim;
+	}
+	
 	public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
 		for (int x = startX; x < endX; x++) {
@@ -135,5 +156,6 @@ public class CharactersToolsGlobal {
 		}
 		return animation;
 	}
+	
 
 }

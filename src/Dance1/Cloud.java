@@ -4,10 +4,13 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-package Run3;
+package Dance1;
 
 
 import java.util.ArrayList;
+
+import lesson14.CharactersToolsGlobal;
+import lesson14.Engine;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -26,33 +29,21 @@ import Run1.Run1.GameMode;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class DisturbPlayer {
+public class Cloud {
     private float x = 600, y = 300;
     private boolean onStair = false;
-    private Animation[] animations = new Animation[2];
+    private Animation[] animations = new Animation[1];
     private float dx = 0, dy = 0;
     private Map map;
-    private boolean isPlayer = false;
     // bot life
-    private CursorStatus status = CursorStatus.None;
-    private float arrivalX = Float.MAX_VALUE;
+    private float arrivalX = Engine.WINDOW_SIZE.width+100;
     private int dureePause = 0;
-	private boolean isWinner = false;
-	//timers
-	private int tic = 0;
-    private ArrayList<Integer[]> t1;
-    private ArrayList<Integer[]> t2;
-    private Music background;
 
-    public enum CursorStatus{Disabled,Enabled,None};// que fait le bot
-
-    public DisturbPlayer(Map map) {
+    public Cloud(Map map) {
         this.map = map;
-        status = CursorStatus.Enabled;
-        isWinner = false;
-        isPlayer = false;
+        reset();
     }
-    public DisturbPlayer(DisturbPlayer p) {// pour copy
+    public Cloud(Cloud p) {// pour copy
         this.map = p.map;
         this.x = p.x;
         this.y = p.y;
@@ -60,40 +51,13 @@ public class DisturbPlayer {
         this.animations = p.animations;
         this.dx = p.dx;
         this.dy = p.dy;
-        this.isWinner = p.isWinner;
-        this.isPlayer = p.isPlayer;
-        this.status = p.status;
     }
 
     public void init() throws SlickException {
-    	t1 = new ArrayList<Integer[]>();
-    	t2 = new ArrayList<Integer[]>();
-    	SpriteSheet spriteSheet = new SpriteSheet("sprites/heman.png", 500, 375);
-        this.animations[0] = loadAnimation(spriteSheet, 1, 8, 0,200);
-        spriteSheet = new SpriteSheet("sprites/he-dance.png", 320, 240);
-        this.animations[1] = loadAnimation(spriteSheet, 1, 20, 0,100);
-        tic = 0;
+    	ArrayList<Animation> listanim = CharactersToolsGlobal.getCloudAnimations();
+        this.animations[0] = CharactersToolsGlobal.getCloudAnimations().get((int)(Math.random() * ((listanim.size()-1 - 0) + 1)));
         
-        // timers des tics
-        //t1
-        t1.add(new Integer[]{31,38});
-        t1.add(new Integer[]{44,51});
-        t1.add(new Integer[]{86,92});
-        t1.add(new Integer[]{99,106});
-        //t2 
-        t2.add(new Integer[]{0,4});
-        t2.add(new Integer[]{14,18});
-        t2.add(new Integer[]{83,86});
-
-        if(background==null)
-            try {
-    			background = new Music("sound/He-man.ogg");
-    		} catch (SlickException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-        background.stop();
-        background.play();
+       // background.play();
     }
 
     public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y, int duration) {
@@ -105,46 +69,19 @@ public class DisturbPlayer {
     }
 
     public void render(Graphics g) {
-       // g.drawAnimation(animations[0], (int) x - 32, (int) y - 32);
-    	if(isTimer1())
-    		animations[0].draw(70, 70, Math.round(500*2.15), Math.round(375*2.15));
-    	else if(isTimer2())
-    		animations[1].draw(70, 50, Math.round(500*2.3), Math.round(375*2.3));
-        
+    	g.drawAnimation(animations[0], (int) x - 32, (int) y - 60);
     }
 
-    private boolean isTimer2() {
-    	for(Integer[] v:t2)
-    		if(tic>v[0]*60 && tic<(v[1]*60))
-    			return true;
-		return false;
-	}
-	private boolean isTimer1() {
-		for(Integer[] v:t1)
-    		if(tic>v[0]*60 && tic<(v[1]*60))
-    			return true;
-		return false;
-	}
+   
 	public void update(int delta) {
-    	tic++;
-    	if(status == CursorStatus.Disabled){
-    		this.setDx(0.0f);
-    		this.setDy(0.0f);
-    		return;
-    	}
         if (this.isMoving()) {
             float futurX = getFuturX(delta);
             float futurY = getFuturY(delta);
-            boolean collision = this.map.isCollision(futurX, futurY);
-            if (collision) {
-                stopMoving();
-            } else {
-                this.x = futurX;
-                this.y = futurY;
-            }
-            
-            
+            this.x = futurX;
+            this.y = futurY;
         }
+        if(x>=arrivalX)
+        	reset();
 
     	
     }
@@ -234,36 +171,21 @@ public class DisturbPlayer {
 		this.animations = animations;
 	}
 
-
-	public void disable() {
-		status = CursorStatus.Disabled;
-	}
-	public void setIsWinner(boolean b) {
-		isWinner  = true;
-	}
-	public boolean isWinner() {
-		// TODO Auto-generated method stub
-		return isWinner;
-	}
-	public boolean isPlayer() {
-		return isPlayer;
-	}
-	public void setPlayer(boolean isPlayer) {
-		this.isPlayer = isPlayer;
-	}
 	public void reset() {
-		x = 100;
-		y = 300;
+		try {
+			init();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		x = -200;
+		y = (float) (Math.random()*Engine.WINDOW_SIZE.height);
 	    onStair = false;
-	    dx = 0;
+	    dx = (float) (Math.random()/2.0f);
 	    dy = 0;
-	    status = CursorStatus.Enabled;
-	    arrivalX = Float.MAX_VALUE;
+	    arrivalX = Engine.WINDOW_SIZE.width+100;
 	    dureePause = 0;
-		isWinner = false;
 	}
-	public void stopMusic() {
-		background.stop();
-	}
+
 
 }

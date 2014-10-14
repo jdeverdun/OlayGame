@@ -51,12 +51,7 @@ public class DisturbPlayer {
         status = CursorStatus.Enabled;
         isWinner = false;
         isPlayer = false;
-        try {
-			background = new Music("sound/He-man.ogg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
     }
     public DisturbPlayer(DisturbPlayer p) {// pour copy
         this.map = p.map;
@@ -90,7 +85,13 @@ public class DisturbPlayer {
         t2.add(new Integer[]{0,4});
         t2.add(new Integer[]{14,18});
         t2.add(new Integer[]{83,86});
-
+        if(background==null)
+            try {
+    			background = new Music("sound/He-man.ogg");
+    		} catch (SlickException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
         background.stop();
        // background.play();
     }
