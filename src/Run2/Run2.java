@@ -98,7 +98,16 @@ public class Run2 extends BasicGameState {
 		
 		startTimer = 180;
 		stopTimer = -1;
-
+		danceDuration = (int) baseDanceDuration;
+		dance = false;
+		danceIntTime = 0;
+		gauche = true;
+	    timerToDance = 0;
+	    if(dance){
+        	Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)danceDuration)/baseDanceDuration;
+		}else{
+        	Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)timerToDance)/baseDanceDuration;
+		}
     }
     
     @Override
@@ -199,8 +208,11 @@ public class Run2 extends BasicGameState {
     			danceDuration = (int) baseDanceDuration;
     	}
     	
-    	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE))
+    	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
+    		background.stop();
         	s.enterState(States.MENU);
+        	
+    	}
     	for(PlayerController contr:controller)
     		contr.update();
     	for(TriggerController tri:triggers)
