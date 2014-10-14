@@ -38,7 +38,7 @@ public class Hud {
         g.resetTransform();
         g.drawImage(playerbars, P_BAR_X, P_BAR_Y);
         g.setColor(MANA_COLOR);
-        g.fillRect(BAR_X, MANA_BAR_Y, MANA_WIDTH_PERC * BAR_WIDTH, BAR_HEIGHT);
+        g.fillRect(BAR_X + MANA_WIDTH_PERC * BAR_WIDTH, MANA_BAR_Y, 7, BAR_HEIGHT);
         g.setColor(XP_COLOR);
         g.fillRect(BAR_X, XP_BAR_Y, XP_WIDTH_PERC * BAR_WIDTH, BAR_HEIGHT);
 

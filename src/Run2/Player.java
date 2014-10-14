@@ -42,8 +42,7 @@ public class Player {
 	private boolean isWinner = false;
     
 	private boolean isDancing = false;
-	private int dance = 0;
-	private int dec = 0;
+	private boolean gauche = true;
 	
     public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
 
@@ -52,8 +51,8 @@ public class Player {
         isWinner = false;
         isPlayer = false;
         cursor = null;
-        dance = 0;
         isDancing = false;
+        gauche = true;
         setAvailableShot(2);
         
     }
@@ -93,13 +92,6 @@ public class Player {
         this.animations[7] = loadAnimation(spriteSheet, 1, 9, 11);*/
     }
 
-    public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
-        Animation animation = new Animation();
-        for (int x = startX; x < endX; x++) {
-            animation.addFrame(spriteSheet.getSprite(x, y), 100);
-        }
-        return animation;
-    }
 
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
@@ -111,23 +103,16 @@ public class Player {
 	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
         }
         if(!isPlayer()){
-        	if(isDancing()){
-		        if(dance>25)
+
+        	if(isDancing() && status != BotStatus.Dead){
+		        if(gauche)
 		        	g.drawAnimation(animations[5], (int) x - 32, (int) y - 60);
 		        else
 		        	g.drawAnimation(animations[7], (int) x - 32, (int) y - 60);
-		        if(dance==50)
-		        	dec = 1;
-		        	else if(dance==0)
-		        		dec=-1;
-		    	dance = dance-dec;
-		    	Hud.MANA_WIDTH_PERC = ((float)dance/50.0f);
-		    	if(Hud.MANA_WIDTH_PERC<=0.5f)
-		    		Hud.MANA_WIDTH_PERC += 0.5f;
-		    	else
-		    		Hud.MANA_WIDTH_PERC -= 0.5f;
+
+
+		    	
         	}else{
-        		dance = 0;
         		if(status == BotStatus.Dead)
     	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
     	        else
@@ -302,6 +287,12 @@ public class Player {
 	public void setIsWinner(boolean b) {
 		isWinner  = true;
 	}
+	public boolean isGauche() {
+		return gauche;
+	}
+	public void setGauche(boolean gauche) {
+		this.gauche = gauche;
+	}
 	public boolean isWinner() {
 		// TODO Auto-generated method stub
 		return isWinner;
@@ -332,7 +323,6 @@ public class Player {
 	    dureePause = 0;
 		isWinner = false;
 		numPlayer = -1;
-		dance = 0;
         isDancing = false;
 		setAvailableShot(2);
 	}

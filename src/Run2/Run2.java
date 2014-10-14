@@ -57,8 +57,11 @@ public class Run2 extends BasicGameState {
    
 	// dance
 	private boolean dance = false;
+	private int danceIntTime = 0;
+	private boolean gauche = true;
     private int timerToDance = 0;
-    private int danceDuration = 500;
+    private final float baseDanceDuration = 540.0f;
+    private int danceDuration = (int) baseDanceDuration;
     
     
     public Run2(int numPlayers) {
@@ -139,10 +142,10 @@ public class Run2 extends BasicGameState {
         		else
         			if(dance){
         	        	//g.drawString("Dance duration : "+danceDuration, 600, 400);
-        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)danceDuration)/500.0f;
+        	        	Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)danceDuration)/baseDanceDuration;
         			}else{
         	        	//g.drawString("Next dance : "+timerToDance, 600, 400);
-        	        	Hud.XP_WIDTH_PERC = (500.0f-(float)timerToDance)/500.0f;
+        	        	Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)timerToDance)/baseDanceDuration;
         			}
         
     }
@@ -182,10 +185,10 @@ public class Run2 extends BasicGameState {
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
-    	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<500)){
+    	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<baseDanceDuration)){
 	        dance = true;
 	    	danceDuration--;
-	    	timerToDance = 500;
+	    	timerToDance = (int) baseDanceDuration;
 	    	
     	}else{
     		if(danceDuration == 0){
@@ -193,7 +196,7 @@ public class Run2 extends BasicGameState {
     			dance = false;
     		}
     		if(timerToDance == 0)
-    			danceDuration = 500;
+    			danceDuration = (int) baseDanceDuration;
     	}
     	
     	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE))
@@ -206,14 +209,26 @@ public class Run2 extends BasicGameState {
     		s.enterState(States.GAME_RUN2);
         if(startTimer == 0 && stopTimer == -1){
         	int count = 0;
+        	// HUD
+	        Hud.MANA_WIDTH_PERC = ((float)danceIntTime/60.0f);
+	    	if(gauche)
+	    		Hud.MANA_WIDTH_PERC = 1-Hud.MANA_WIDTH_PERC;
+	    	
+	    	danceIntTime++;
+	        if(danceIntTime>60){
+	        	gauche = !gauche;
+	        	danceIntTime = 0;
+	        }
 	        for(Player player:characters){
 	        	player.setDancing(dance);
+	        	player.setGauche(gauche);
 	        	if(count>0 && player.isAwaitingOrder()){
 	        		player.randomOrder();
 	        	}
 	        	player.update(delta);
 	        	count++;
 	        }
+	        
 	        // cursor
 	        for(Player player:characters){
 	        	if(player.getCursor() != null)
