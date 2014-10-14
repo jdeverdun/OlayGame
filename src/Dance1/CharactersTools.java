@@ -25,8 +25,8 @@ public class CharactersTools {
 				int code = 0 + (int)(Math.random() * ((listanim.size()-1 - 0) + 1));
 				p.init();
 				p.setAnimations(listanim.get(code));
-				p.setY(110 + (int)(Math.random() * ((820 - 110) + 1)));
-				
+				p.setY(167 + (int)(Math.random() * ((749 - 167) + 1)));
+				p.setX(172 + (int)(Math.random() * ((871 - 172) + 1)));
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

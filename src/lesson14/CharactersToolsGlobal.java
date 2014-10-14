@@ -18,6 +18,7 @@ import Run2.Player;
 public class CharactersToolsGlobal {
 	public static ArrayList<Animation[]> CHARACTER_ANIMATIONS_LIST = null;
 	public static ArrayList<Animation> CLOUD_ANIMATIONS_LIST = null;
+	private static ArrayList<Animation[]> ARROW_ANIMATIONS_LIST = null;
 	
 	public static ArrayList<Animation[]> getCharAnimations(){
 		if(CHARACTER_ANIMATIONS_LIST!=null)
@@ -142,6 +143,61 @@ public class CharactersToolsGlobal {
 			animations = loadAnimation(spriteSheet2, 0, 1, 0);
 			listanim.add(animations);
 			CLOUD_ANIMATIONS_LIST = listanim;
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listanim;
+	}
+	
+	public static ArrayList<Animation[]> getArrowAnimations(){
+		if(ARROW_ANIMATIONS_LIST!=null)
+			return ARROW_ANIMATIONS_LIST;
+		ArrayList<Animation[]> listanim = new ArrayList<Animation[]>();
+		try{
+			Animation animations[] = new Animation[8];
+
+			SpriteSheet spriteSheet = new SpriteSheet("sprites/arrowleft.png", 64, 64);
+			animations[0] = loadAnimation(spriteSheet, 3, 3, 0);
+			animations[1] = loadAnimation(spriteSheet, 3, 3, 1);
+			animations[2] = loadAnimation(spriteSheet, 3, 3, 2);
+			animations[3] = loadAnimation(spriteSheet, 3, 3, 3);
+			animations[4] = loadAnimation(spriteSheet, 2, 2, 0);
+			animations[5] = loadAnimation(spriteSheet, 2, 2, 1);
+			animations[6] = loadAnimation(spriteSheet, 2, 2, 2);
+			animations[7] = loadAnimation(spriteSheet, 2, 2, 3);
+			listanim.add(animations);
+			SpriteSheet spriteSheet2 = new SpriteSheet("sprites/arrowup.png", 64, 64);
+			animations[0] = loadAnimation(spriteSheet2, 3, 3, 0);
+			animations[1] = loadAnimation(spriteSheet2, 3, 3, 1);
+			animations[2] = loadAnimation(spriteSheet2, 3, 3, 2);
+			animations[3] = loadAnimation(spriteSheet2, 3, 3, 3);
+			animations[4] = loadAnimation(spriteSheet2, 2, 2, 0);
+			animations[5] = loadAnimation(spriteSheet2, 2, 2, 1);
+			animations[6] = loadAnimation(spriteSheet2, 2, 2, 2);
+			animations[7] = loadAnimation(spriteSheet2, 2, 2, 3);
+			listanim.add(animations);
+			SpriteSheet spriteSheet3 = new SpriteSheet("sprites/arrowdown.png", 64, 64);
+			animations[0] = loadAnimation(spriteSheet3, 3, 3, 0);
+			animations[1] = loadAnimation(spriteSheet3, 3, 3, 1);
+			animations[2] = loadAnimation(spriteSheet3, 3, 3, 2);
+			animations[3] = loadAnimation(spriteSheet3, 3, 3, 3);
+			animations[4] = loadAnimation(spriteSheet3, 2, 2, 0);
+			animations[5] = loadAnimation(spriteSheet3, 2, 2, 1);
+			animations[6] = loadAnimation(spriteSheet3, 2, 2, 2);
+			animations[7] = loadAnimation(spriteSheet3, 2, 2, 3);
+			listanim.add(animations);
+			SpriteSheet spriteSheet4 = new SpriteSheet("sprites/arrowright.png", 64, 64);
+			animations[0] = loadAnimation(spriteSheet4, 3, 3, 0);
+			animations[1] = loadAnimation(spriteSheet4, 3, 3, 1);
+			animations[2] = loadAnimation(spriteSheet4, 3, 3, 2);
+			animations[3] = loadAnimation(spriteSheet4, 3, 3, 3);
+			animations[4] = loadAnimation(spriteSheet4, 2, 2, 0);
+			animations[5] = loadAnimation(spriteSheet4, 2, 2, 1);
+			animations[6] = loadAnimation(spriteSheet4, 2, 2, 2);
+			animations[7] = loadAnimation(spriteSheet4, 2, 2, 3);
+			listanim.add(animations);
+			ARROW_ANIMATIONS_LIST = listanim;
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

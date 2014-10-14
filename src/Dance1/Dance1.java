@@ -24,6 +24,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import Dance1.Arrow.Direction;
 import Dance1.Camera;
 import Dance1.CharactersTools;
 import Dance1.Player.BotStatus;
@@ -45,6 +46,7 @@ public class Dance1 extends BasicGameState {
     private Map map = new Map();
     private ArrayList<Player> characters;
     private ArrayList<Cloud> clouds;
+    private ArrayList<Arrow> staticArrows;
     private ArrayList<TriggerController> triggers;
     private Camera camera;
     private ArrayList<PlayerController> controller;
@@ -87,6 +89,13 @@ public class Dance1 extends BasicGameState {
 		for(int i = 0; i<numberOfClouds; i++){
 			clouds.add(new Cloud(map));
 		}
+		//arrow
+		
+		staticArrows = new ArrayList<Arrow>(4);
+		staticArrows.add(new Arrow(map,true,Direction.left));
+		staticArrows.add(new Arrow(map,true,Direction.right));
+		staticArrows.add(new Arrow(map,true,Direction.up));
+		staticArrows.add(new Arrow(map,true,Direction.down));
 		// players
 		triggers = new ArrayList<TriggerController>();
 		controller = new ArrayList<PlayerController>();
@@ -139,6 +148,9 @@ public class Dance1 extends BasicGameState {
         this.map.renderForeground();
         for(Cloud cloud:clouds){
         	cloud.render(g);
+        }
+        for(Arrow arrow:staticArrows){
+        	arrow.render(g);
         }
         this.hud.render(g);
         
@@ -231,6 +243,9 @@ public class Dance1 extends BasicGameState {
     		contr.update();
     	 for(Cloud cloud:clouds){
     		 cloud.update(delta);
+         }
+    	 for(Arrow arrow:staticArrows){
+    		 arrow.update(delta);
          }
     	for(TriggerController tri:triggers)
     		tri.update();

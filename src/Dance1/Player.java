@@ -43,6 +43,7 @@ public class Player {
     
 	private boolean isDancing = false;
 	private boolean gauche = true;
+	public int compteur = 0;
 	
     public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
 
@@ -122,6 +123,7 @@ public class Player {
     }
 
     public void update(int delta) {
+    	compteur++;
     	if(status == BotStatus.Dead || (!isPlayer() && isDancing()) || (isPlayer() && isDancing() && this.dx>0.01f)){// ||
     			//(isPlayer() && !isDancing() && this.dx<0.01f)){
     		this.setDx(0.0f);
@@ -361,6 +363,9 @@ public class Player {
 	}
 	public void setDancing(boolean isDancing) {
 		this.isDancing = isDancing;
+	}
+	public void logKey(int key) {
+		System.out.println(compteur+"@@"+key);
 	}
 
 }

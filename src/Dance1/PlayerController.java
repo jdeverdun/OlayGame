@@ -157,39 +157,34 @@ public class PlayerController implements KeyListener,MouseListener {
 
     @Override
     public void keyPressed(int key, char c) {
+    	this.player.logKey(key);
     	if(key == up_local){
     		this.player.setDx(0.0f);
+    		this.player.setDy(-0.0001f);
+    	}else if(key == down_local){
+    		this.player.setDx(0.0f);
+    		this.player.setDy(0.0001f);
+    	}else if(key == right_local){
     		this.player.setDy(0.0f);
-    	}else if(key == down_local)
-    		this.player.setDx(0.3f);
-    	else if(key == right_local)
     		this.player.setDx(0.0001f);
-    	else if(key == left_local)
+    	}else if(key == left_local){
+    		this.player.setDy(0.0f);
     		this.player.setDx(-0.0001f);//return;
-    	else if(key == cursor_down_local)
+    	}else if(key == cursor_down_local){
     		this.player.getCursor().setDy(2.5f);
-    	else if(key == cursor_up_local)
+    	}else if(key == cursor_up_local){
     		this.player.getCursor().setDy(-2.5f);
-    	else if(key == cursor_right_local)
+    	}else if(key == cursor_right_local){
     		this.player.getCursor().setDx(2.5f);
-    	else if(key == cursor_left_local)
+    	}else if(key == cursor_left_local){
     		this.player.getCursor().setDx(-2.5f);
+    	}
     }
 
 
 	@Override
     public void keyReleased(int key, char c) {
-    	if(key == up_local)
-    		return;
-    	else if(key == down_local)
-    		this.player.setDx(0);
-    	else if(key == right_local)
-    		return;
-    	else if(key == left_local)
-    		return;
-    	else if(key == cursor_down_local)
-    		this.player.getCursor().setDy(0);
-    	else if(key == cursor_up_local)
+    	if(key == cursor_up_local)
     		this.player.getCursor().setDy(0);
     	else if(key == cursor_right_local)
     		this.player.getCursor().setDx(0);
@@ -216,7 +211,7 @@ public class PlayerController implements KeyListener,MouseListener {
 
 	@Override
 	public void mouseClicked(int button, int x, int y, int clickcount) {
-		
+		System.out.println(x+"--"+y);
 	}
 
 	@Override
