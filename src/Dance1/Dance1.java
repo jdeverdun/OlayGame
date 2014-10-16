@@ -8,14 +8,19 @@ package Dance1;
 
 import java.awt.Menu;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 
+import lesson14.Engine;
 import lesson14.States;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -47,6 +52,8 @@ public class Dance1 extends BasicGameState {
     private ArrayList<Player> characters;
     private ArrayList<Cloud> clouds;
     private ArrayList<Arrow> staticArrows;
+    private ArrayList<Arrow> movingArrows;
+    private int maxMovingArrows = 20;
     private ArrayList<TriggerController> triggers;
     private Camera camera;
     private ArrayList<PlayerController> controller;
@@ -56,8 +63,8 @@ public class Dance1 extends BasicGameState {
     private GameMode currentGameMode = GameMode.Dance1;
     private int numPlayers;
     public enum GameMode{Run1,Run2, Dance1};
-    private Music background;
-
+    public static Music background;
+    
    
 	// dance
 	private boolean dance = false;
@@ -66,8 +73,10 @@ public class Dance1 extends BasicGameState {
     private int timerToDance = 0;
     private final float baseDanceDuration = 540.0f;
     private int danceDuration = (int) baseDanceDuration;
-    
-    
+    private int tic = 0;
+    private LinkedList<Integer[]> steps;
+    private int offset = Integer.MIN_VALUE;
+	private Player shooter;
     public Dance1(int numPlayers) {
         this.numPlayers = numPlayers;
 
@@ -75,6 +84,8 @@ public class Dance1 extends BasicGameState {
     }
     
     public void resetAll(int n){
+    	
+    	offset = Integer.MIN_VALUE;
     	if(characters!=null){
     		for(Player p : characters){
     			p.reset();
@@ -96,17 +107,32 @@ public class Dance1 extends BasicGameState {
 		staticArrows.add(new Arrow(map,true,Direction.right));
 		staticArrows.add(new Arrow(map,true,Direction.up));
 		staticArrows.add(new Arrow(map,true,Direction.down));
+		
+		// moving arrow
+		movingArrows = new ArrayList<Arrow>(maxMovingArrows);
+		for(int i = 0;i<maxMovingArrows;i++){
+			movingArrows.add(new Arrow(map,false,Direction.left));
+			movingArrows.get(i).setDisable(true);
+		}
 		// players
 		triggers = new ArrayList<TriggerController>();
 		controller = new ArrayList<PlayerController>();
-		for(int i = 0; i<n; i++){
+		for(int i = 0; i<n-1; i++){
 			characters.get(i).setPlayer(true);
 			characters.get(i).setNumPlayer(i+1);
 			controller.add(new PlayerController(characters.get(i),characters));
 			triggers.add(new TriggerController(map, characters.get(i)));
 		}
+		// last player
+		shooter = new Player(map,true);
+		controller.add(new PlayerController(shooter,characters));
 		camera = new Camera(characters.get(0));
-		
+		try {
+			steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		startTimer = 180;
 		stopTimer = -1;
 		danceDuration = (int) baseDanceDuration;
@@ -114,6 +140,7 @@ public class Dance1 extends BasicGameState {
 		danceIntTime = 0;
 		gauche = true;
 	    timerToDance = 0;
+	    tic = 0;
 	    if(dance){
         	Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)danceDuration)/baseDanceDuration;
 		}else{
@@ -130,21 +157,36 @@ public class Dance1 extends BasicGameState {
     public void render(GameContainer container, StateBasedGame s, Graphics g) throws SlickException {
         //this.camera.place(container, g);
         this.map.renderBackground();
-        if(checkForEquality()){
-        	g.drawString("No WINNER snif :'(",600,400);
+        boolean hasWinner = false;
+    	String winnerWord = "Winner : ";
+        for(Player player:characters){
+        	player.render(g);
+        	if(player.isWinner()){
+        		winnerWord += "Player "+player.getNumPlayer() +" ";
+        		hasWinner = true;
+            	if(stopTimer==-1)
+            		stopTimer = 180;
+        	}
+        	
+        }
+        if(shooter.isWinner()){
+        	hasWinner = true;
+        	winnerWord += "Shooter winner ! ";
         	if(stopTimer==-1)
         		stopTimer = 180;
-        }else{
-	        for(Player player:characters){
-	        	player.render(g);
-	        	if(player.isWinner()){
-	            	g.drawString("Player "+player.getNumPlayer()+" WIN",600,400);
-	            	if(stopTimer==-1)
-	            		stopTimer = 180;
-	        	}
-	        }
         }
-
+        if(hasWinner)
+        	g.drawString(winnerWord,600,400);
+        
+        
+        for(Player player:characters){
+        	player.render(g);
+        	if(player.getStatus() != BotStatus.Dead){
+        		g.setColor(Color.green);
+        		g.drawString("Player "+player.getNumPlayer(),Engine.WINDOW_SIZE.width-(100*player.getNumPlayer()),10);
+        	}
+        	
+        }
         this.map.renderForeground();
         for(Cloud cloud:clouds){
         	cloud.render(g);
@@ -152,13 +194,11 @@ public class Dance1 extends BasicGameState {
         for(Arrow arrow:staticArrows){
         	arrow.render(g);
         }
+        for(Arrow arrow:movingArrows){
+        	arrow.render(g);
+        }
         this.hud.render(g);
         
-        // cursor
-        for(Player player:characters){
-        	if(player.getCursor() != null)
-        		player.getCursor().render(g);
-        }
         if(startTimer > 120)
         	g.drawString("3", 500, 500);
         else
@@ -194,6 +234,7 @@ public class Dance1 extends BasicGameState {
 
 	@Override
     public void enter(GameContainer container,StateBasedGame s) throws SlickException{
+		container.setMouseCursor("sprites/cursor/crosshair.png", 32,32);
     	resetAll(numPlayers);
         this.container = container;
         
@@ -204,8 +245,10 @@ public class Dance1 extends BasicGameState {
         this.hud.init();
         for(PlayerController contr:controller){
         	contr.setInput(container.getInput());
-        	container.getInput().addKeyListener(contr);
-        	container.getInput().addMouseListener(contr);
+        	if(!contr.getPlayer().isShooter())
+        		container.getInput().addKeyListener(contr);
+        	else
+        		container.getInput().addMouseListener(contr);
         }
         if(background==null)
             try {
@@ -220,6 +263,29 @@ public class Dance1 extends BasicGameState {
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
+    	if(characters.get(numPlayers-2).getStatus() == BotStatus.Dead)
+    		container.setDefaultMouseCursor();
+    	/*for(int i = 0 ; i < numPlayers-1;i++){
+    		if(characters.get(i).getStatus() != BotStatus.Dead && characters.get(numPlayers-1).getAvailableShot()<=0){
+    			characters.get(i).setIsWinner(true);
+    		}
+    	}
+    	if(!background.playing()){*/
+    		boolean hasWinner = false;
+	    	for(int i = 0 ; i < numPlayers-1;i++){
+	    		if(characters.get(i).getStatus() != BotStatus.Dead && shooter.getAvailableShot()<=0){
+	    			characters.get(i).setIsWinner(true);
+	    			hasWinner = true;
+	    		}
+	    	}
+	    	boolean alldead = true;
+	    	for(int i = 0 ; i < numPlayers-1;i++){
+	    		if(characters.get(i).getStatus() != BotStatus.Dead)
+	    			alldead = false;
+	    	}
+	    	if(!hasWinner && alldead)
+	    		shooter.setIsWinner(true);
+    	//}
     	if(timerToDance == 0 || (danceDuration > 0 && danceDuration<baseDanceDuration)){
 	        dance = true;
 	    	danceDuration--;
@@ -235,6 +301,7 @@ public class Dance1 extends BasicGameState {
     	}
     	
     	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
+    		container.setDefaultMouseCursor();
     		background.stop();
         	s.enterState(States.MENU);
         	
@@ -247,12 +314,14 @@ public class Dance1 extends BasicGameState {
     	 for(Arrow arrow:staticArrows){
     		 arrow.update(delta);
          }
+    	 for(Arrow arrow:movingArrows){
+    		 arrow.update(delta);
+         }
     	for(TriggerController tri:triggers)
     		tri.update();
     	if(stopTimer == 0)
     		s.enterState(States.GAME_DANCE1);
         if(startTimer == 0 && stopTimer == -1){
-        	int count = 0;
         	// HUD
 	        Hud.MANA_WIDTH_PERC = ((float)danceIntTime/60.0f);
 	    	if(gauche)
@@ -264,32 +333,68 @@ public class Dance1 extends BasicGameState {
 	        	danceIntTime = 0;
 	        }
 	        for(Player player:characters){
-	        	player.setDancing(dance);
-	        	player.setGauche(gauche);
-	        	if(count>0 && player.isAwaitingOrder()){
-	        		player.randomOrder();
-	        	}
 	        	player.update(delta);
-	        	count++;
 	        }
 	        
-	        // cursor
-	        for(Player player:characters){
-	        	if(player.getCursor() != null)
-	        		player.getCursor().update(delta);
-	        }
         }else{
         	if(startTimer != 0)
         		startTimer--;
         	if(stopTimer > 0)
         		stopTimer--;
         }
+    	tic++;
+    	// check for next steps
+
+    	int ticFromBottomToUp = 515;//Math.max(offset, (int)((Engine.WINDOW_SIZE.height-Arrow.default_arrivalY)/(.15f * delta * Arrow.arrowSpeed )));
+    	if(!steps.isEmpty() && (steps.getFirst()[0]-ticFromBottomToUp) == (tic)){
+    		addArrow(steps.pop());
+    		
+    	}
+    	
+    	for(Arrow arr : movingArrows){
+	    	if(arr.getTicTime() == (tic)){
+	    		
+	    		for(Player player:characters){
+		        	if(!player.isPlayer())
+		        		player.move(arr.getOrientation());
+		        }
+	    	}else{
+	    		if((arr.getTicTime() - (tic)) < 12 && (arr.getTicTime() - (tic)) > 0){
+	    			for(Player player:characters){
+			        	if(!player.isPlayer() && Math.random()<(0.06*(arr.getTicTime() - (tic))/11))
+			        		player.move(arr.getOrientation());
+			        }
+	    		}
+	    	}
+    	}
     	
        //this.camera.update(container);
     }
 
     
-    @Override
+    private void addArrow(Integer[] pop) {
+    	Direction dir = Direction.up;
+		switch(pop[1]){
+		case Input.KEY_UP:
+			dir = Direction.up;break;
+		case Input.KEY_DOWN:
+			dir = Direction.down;break;
+		case Input.KEY_LEFT:
+			dir = Direction.left;break;
+		case Input.KEY_RIGHT:
+			dir = Direction.right;break;
+		}
+		for(Arrow arr : movingArrows){
+			if(arr.isDisable()){
+				arr.setOrientation(dir);
+				arr.reset();
+				arr.setTicTime(pop[0]);
+				return;
+			}
+		}
+	}
+
+	@Override
     public int getID(){
     	return States.GAME_DANCE1;
     }

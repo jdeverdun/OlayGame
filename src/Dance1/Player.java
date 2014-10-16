@@ -10,10 +10,13 @@ package Dance1;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
+import Dance1.Arrow.Direction;
 import Dance1.Dance1.GameMode;
+import Dance1.Player.BotStatus;
 
 
 /**
@@ -31,10 +34,9 @@ public class Player {
     private float dx = 0, dy = 0;
     private Map map;
     private boolean isPlayer = false;
-    private CursorPlayer cursor;
     // joueur
     private int numPlayer = -1;
-    private int availableShot = 2;
+    private int availableShot = 3;
     // bot life
     private BotStatus status = BotStatus.None;
     private float arrivalX = Float.MAX_VALUE;
@@ -44,6 +46,7 @@ public class Player {
 	private boolean isDancing = false;
 	private boolean gauche = true;
 	public int compteur = 0;
+	private boolean shooter = false;
 	
     public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
 
@@ -51,10 +54,10 @@ public class Player {
         this.map = map;
         isWinner = false;
         isPlayer = false;
-        cursor = null;
         isDancing = false;
+        shooter = false;
         gauche = true;
-        setAvailableShot(2);
+        setAvailableShot(3);
         
     }
     public Player(Player p) {// pour copy
@@ -67,11 +70,16 @@ public class Player {
         this.dy = p.dy;
         this.isWinner = p.isWinner;
         this.isPlayer = p.isPlayer;
-        this.cursor = p.cursor;
-        setAvailableShot(2);
+        this.shooter = p.shooter;
+        setAvailableShot(3);
     }
 
-    public void init() throws SlickException {
+    public Player(Map map2, boolean b) {
+		this(map2);
+		shooter = b;
+		isPlayer = true;
+	}
+	public void init() throws SlickException {
         /*SpriteSheet spriteSheet = new SpriteSheet("sprites/character.png", 64, 64);
         this.animations[0] = loadAnimation(spriteSheet, 0, 1, 0);
         this.animations[1] = loadAnimation(spriteSheet, 0, 1, 1);
@@ -130,34 +138,7 @@ public class Player {
     		this.setDy(0.0f);
     		return;
     	}
-        // bot ia
-    	if(!isPlayer){
-	        if(status != BotStatus.None){
-	        	switch(status){
-	        	case MoveRight:
-	        		if(this.x>=arrivalX){
-	        			status = BotStatus.None;
-	    	        	arrivalX = Float.MAX_VALUE;
-	    	        	dureePause = 0;
-	    	        	this.setDx(0.0f);
-	        		}else{
-	        			this.setDx(0.3f);
-	        		}
-	        		break;
-	        	case Wait:
-	        		if(dureePause <= 0){
-	        			status = BotStatus.None;
-			        	arrivalX = Float.MAX_VALUE;
-			        	dureePause = 0;
-			        	this.setDx(0.0f);
-	        		}else{
-	        			dureePause--;
-	        			this.setDx(0.0f);
-	        		}
-	        		break;
-	        	}
-	        }
-    	}
+        
         if (this.isMoving()) {
             float futurX = getFuturX(delta);
             float futurY = getFuturY(delta);
@@ -277,17 +258,18 @@ public class Player {
 		}
 		
 	}
-	public CursorPlayer getCursor() {
-		return cursor;
-	}
-	public void setCursor(CursorPlayer cursor) {
-		this.cursor = cursor;
-	}
+	
 	public void kill() {
 		status = BotStatus.Dead;
 	}
 	public void setIsWinner(boolean b) {
 		isWinner  = true;
+	}
+	public boolean isShooter() {
+		return shooter;
+	}
+	public void setShooter(boolean shooter) {
+		this.shooter = shooter;
 	}
 	public boolean isGauche() {
 		return gauche;
@@ -304,15 +286,6 @@ public class Player {
 	}
 	public void setPlayer(boolean isPlayer) {
 		this.isPlayer = isPlayer;
-		if(isPlayer){
-			cursor = new CursorPlayer(map);
-			try {
-				cursor.init();
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 	public void reset() {
 		x = 100;
@@ -326,7 +299,7 @@ public class Player {
 		isWinner = false;
 		numPlayer = -1;
         isDancing = false;
-		setAvailableShot(2);
+		setAvailableShot(3);
 	}
 	/**
 	 * @return the numPlayer
@@ -357,6 +330,9 @@ public class Player {
 	 */
 	public void setAvailableShot(int availableShot) {
 		this.availableShot = availableShot;
+		if(this.availableShot==0){
+			status = BotStatus.Dead;
+		}
 	}
 	public boolean isDancing() {
 		return isDancing;
@@ -366,6 +342,23 @@ public class Player {
 	}
 	public void logKey(int key) {
 		System.out.println(compteur+"@@"+key);
+	}
+	public void move(Direction key){
+		if(status==BotStatus.Dead)
+			return;
+		if(key == Direction.up){
+    		this.setDx(0.0f);
+    		this.setDy(-0.0001f);
+    	}else if(key == Direction.down){
+    		this.setDx(0.0f);
+    		this.setDy(0.0001f);
+    	}else if(key == Direction.right){
+    		this.setDy(0.0f);
+    		this.setDx(0.0001f);
+    	}else if(key == Direction.left){
+    		this.setDy(0.0f);
+    		this.setDx(-0.0001f);//return;
+    	}
 	}
 
 }

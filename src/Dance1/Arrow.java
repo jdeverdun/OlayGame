@@ -32,20 +32,27 @@ import Run1.Run1.GameMode;
 public class Arrow {
     private float x = 600, y = 300;
     private boolean onStair = false;
-    private Animation[] animations = new Animation[8];
+    private Animation[] animations = new Animation[10];
     private float dx = 0, dy = 0;
     private Map map;
     // bot life
-    private float arrivalX = Engine.WINDOW_SIZE.width+100;
+
+    public static final float default_arrivalY = 100;
+    private float arrivalY = default_arrivalY;
     private int dureePause = 0;
     private boolean isfixed = false;
-    private Direction direction = null;
+    private Direction orientation = null;
+
+	private boolean disable = false;
+    public static float arrowSpeed = 0.6f;
+    private int ticTime = -1;
     
     public enum Direction{left,right,up,down};
 
     public Arrow(Map map, boolean isfixed, Direction dir) {
         this.map = map;
-        this.direction = dir;
+        this.orientation = dir;
+        setIsfixed(isfixed);
         reset();
     }
     public Arrow(Arrow p) {// pour copy
@@ -59,7 +66,7 @@ public class Arrow {
     }
 
     public void init() throws SlickException {
-    	switch(this.direction){
+    	switch(this.orientation){
     	case up:
     		this.animations = CharactersToolsGlobal.getArrowAnimations().get(1);
     		break;
@@ -88,19 +95,32 @@ public class Arrow {
     }
 
     public void render(Graphics g) {
-    	g.drawAnimation(animations[0], (int) x - 32, (int) y - 60);
+    	if(isDisable())
+    		return;
+		if(!isfixed && (this.y - arrivalY)<5){
+			if((this.y - arrivalY)<-3)
+				setDisable(true);
+			g.drawAnimation(animations[3], (int) x - 32, (int) y- (this.y - arrivalY) - 60);
+		}else{
+			if(!isfixed)
+				g.drawAnimation(animations[2], (int) x - 32, (int) y - 60);
+			else
+				g.drawAnimation(animations[8], (int) x - 32, (int) y - 60);
+		}
     }
 
    
 	public void update(int delta) {
+		if(isDisable())
+			return;
         if (this.isMoving()) {
             float futurX = getFuturX(delta);
             float futurY = getFuturY(delta);
             this.x = futurX;
             this.y = futurY;
+            
         }
-        if(x>=arrivalX)
-        	reset();
+
 
     	
     }
@@ -197,33 +217,33 @@ public class Arrow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		setDisable(false);
+		switch(this.orientation){
+    	case up:
+    		x = Engine.WINDOW_SIZE.width-(192-32);
+    		break;
+    	case down:
+    		x = Engine.WINDOW_SIZE.width-(128-32);
+    		break;
+    	case left:
+    		x = Engine.WINDOW_SIZE.width-(256-32);
+    		break;
+    	case right:
+    		x = Engine.WINDOW_SIZE.width-32;
+    		break;
+    	}
 		if(isfixed){
-			y = 100;
-			switch(this.direction){
-	    	case up:
-	    		x = Engine.WINDOW_SIZE.width-(256+64);
-	    		break;
-	    	case down:
-	    		x = Engine.WINDOW_SIZE.width-(256+128);
-	    		break;
-	    	case left:
-	    		x = Engine.WINDOW_SIZE.width-(256);
-	    		break;
-	    	case right:
-	    		x = Engine.WINDOW_SIZE.width-64;
-	    		break;
-	    	}
+			y = arrivalY;
 			dx = 0;
 		    dy = 0;
 		}else{
-			x = -200;
-			y = (float) (Math.random()*Engine.WINDOW_SIZE.height);
-			dx = (float) (Math.random()/2.0f);
-		    dy = 0;
+			y = (float) (Engine.WINDOW_SIZE.height);
+			dx = 0;
+		    dy = -arrowSpeed;
 		}
 	    onStair = false;
-	    
-	    arrivalX = Engine.WINDOW_SIZE.width+100;
+	    ticTime = -1;
+	    arrivalY = default_arrivalY;
 	    dureePause = 0;
 	}
 	/**
@@ -238,6 +258,30 @@ public class Arrow {
 	public void setIsfixed(boolean isfixed) {
 		this.isfixed = isfixed;
 	}
+	/**
+	 * @return the disable
+	 */
+	public boolean isDisable() {
+		return disable;
+	}
+	/**
+	 * @param disable the disable to set
+	 */
+	public void setDisable(boolean disable) {
+		this.disable = disable;
+	}
 
+    public Direction getOrientation() {
+		return orientation;
+	}
+	public void setOrientation(Direction orientation) {
+		this.orientation = orientation;
+	}
+	public void setTicTime(Integer tic) {
+		ticTime = tic;
+	}
+	public int getTicTime(){
+		return ticTime;
+	}
 
 }

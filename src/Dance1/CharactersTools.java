@@ -1,5 +1,9 @@
 package Dance1;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +36,19 @@ public class CharactersTools {
 				e.printStackTrace();
 			}
 		}
+	}
+	public static LinkedList<Integer[]> parseDanceFile(String file) throws FileNotFoundException, IOException{
+		LinkedList<Integer[]> steps = new LinkedList<Integer[]>();
+		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+	        String line = br.readLine();
+	        String[] content = line.split("@@");
+	        steps.add(new Integer[]{Integer.parseInt(content[0]),Integer.parseInt(content[1])});
+	        while ((line = br.readLine()) != null) {
+	            content = line.split("@@");
+	            steps.add(new Integer[]{Integer.parseInt(content[0]),Integer.parseInt(content[1])});
+	        }
+	    }
+		return steps;
 	}
 
 }

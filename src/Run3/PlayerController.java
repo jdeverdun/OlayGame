@@ -8,6 +8,8 @@ import org.newdawn.slick.ControllerListener;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
+import Run3.Player.BotStatus;
+
 /**
  * Code sous licence GPLv3 (http://www.gnu.org/licenses/gpl.html)
  * 
@@ -200,7 +202,7 @@ public class PlayerController implements KeyListener,MouseListener {
         	}
     		for(Player p:characters){
     			float dist = (float) Math.sqrt((p.getX()-this.player.getCursor().getX())*(p.getX()-this.player.getCursor().getX()) + (p.getY()-10-this.player.getCursor().getY())*(p.getY()-10-this.player.getCursor().getY()));
-    			if(dist<40){
+    			if((dist<40 && p.getNumPlayer()!=player.getNumPlayer() &&  p.getStatus()!=BotStatus.Dead)){
     				p.kill();
     				player.setAvailableShot(player.getAvailableShot()-1);
     				if(player.getAvailableShot()<=0){
