@@ -263,7 +263,7 @@ public class Dance1 extends BasicGameState {
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
-    	if(characters.get(numPlayers-2).getStatus() == BotStatus.Dead)
+    	if(shooter.getStatus() == BotStatus.Dead)
     		container.setDefaultMouseCursor();
     	/*for(int i = 0 ; i < numPlayers-1;i++){
     		if(characters.get(i).getStatus() != BotStatus.Dead && characters.get(numPlayers-1).getAvailableShot()<=0){
