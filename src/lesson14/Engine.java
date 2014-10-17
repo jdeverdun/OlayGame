@@ -38,7 +38,7 @@ public class Engine extends StateBasedGame{
 		this.addState(new Run2(3));
 		this.addState(new Run3(3));
 		this.addState(new FogWar1(3));
-		this.addState(new Dance1(3));
+		this.addState(new Dance1(4));
 	}
 
 }

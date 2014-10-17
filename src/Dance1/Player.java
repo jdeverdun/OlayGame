@@ -57,6 +57,7 @@ public class Player {
         isDancing = false;
         shooter = false;
         gauche = true;
+        compteur = 0;
         setAvailableShot(3);
         
     }
@@ -131,7 +132,6 @@ public class Player {
     }
 
     public void update(int delta) {
-    	compteur++;
     	if(status == BotStatus.Dead || (!isPlayer() && isDancing()) || (isPlayer() && isDancing() && this.dx>0.01f)){// ||
     			//(isPlayer() && !isDancing() && this.dx<0.01f)){
     		this.setDx(0.0f);
@@ -361,4 +361,10 @@ public class Player {
     	}
 	}
 
+	public void incrementCompteur(){
+		compteur++;
+	}
+	public void setCompteur(int t){
+		compteur = t;;
+	}
 }

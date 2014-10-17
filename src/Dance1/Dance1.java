@@ -129,6 +129,7 @@ public class Dance1 extends BasicGameState {
 		camera = new Camera(characters.get(0));
 		try {
 			steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
+			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Hardcore-Overdoze.txt");//Day-dream.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -253,6 +254,7 @@ public class Dance1 extends BasicGameState {
 		if(background==null)
 			try {
 				background = new Music("sound/Day-Dream.ogg");
+				//background = new Music("sound/Hardcore-Overdoze.ogg");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -290,7 +292,7 @@ public class Dance1 extends BasicGameState {
 			hasWinner = false;
 			for(int i = 0 ; i < numPlayers-1;i++){
 				if(characters.get(i).getStatus() != BotStatus.Dead && shooter.getAvailableShot()<=0){
-					characters.get(i).setIsWinner(true);
+					characters.get(i).setIsWinner(true); 
 					hasWinner = true;
 				}
 			}
@@ -357,11 +359,14 @@ public class Dance1 extends BasicGameState {
 		// check for next steps
 
 		int ticFromBottomToUp = 515;//Math.max(offset, (int)((Engine.WINDOW_SIZE.height-Arrow.default_arrivalY)/(.15f * delta * Arrow.arrowSpeed )));
+		//System.out.println((int)((Engine.WINDOW_SIZE.height-Arrow.default_arrivalY)/(.15f * delta * Arrow.arrowSpeed )));
+		if(!steps.isEmpty() && (steps.getFirst()[0]-ticFromBottomToUp) < (tic))
+			steps.pop();
 		if(!steps.isEmpty() && (steps.getFirst()[0]-ticFromBottomToUp) == (tic)){
 			addArrow(steps.pop());
 
 		}
-
+		characters.get(0).setCompteur(tic);
 		for(Arrow arr : movingArrows){
 			if(arr.getTicTime() == (tic)){
 
@@ -372,7 +377,7 @@ public class Dance1 extends BasicGameState {
 			}else{
 				if((arr.getTicTime() - (tic)) < 12 && (arr.getTicTime() - (tic)) > 0){
 					for(Player player:characters){
-						if(!player.isPlayer() && Math.random()<(0.06*(arr.getTicTime() - (tic))/11))
+						if(!player.isPlayer() && Math.random()<(0.03*(arr.getTicTime() - (tic))/11))
 							player.move(arr.getOrientation());
 					}
 				}

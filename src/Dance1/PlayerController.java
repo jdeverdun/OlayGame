@@ -172,7 +172,8 @@ public class PlayerController implements KeyListener,MouseListener {
 	public void keyPressed(int key, char c) {
 		if(player.isShooter())
 			return;
-		//this.player.logKey(key);
+		if(player.getNumPlayer()==1)
+		this.player.logKey(key);
 		if(key == up_local){
 			this.player.setDx(0.0f);
 			this.player.setDy(-0.0001f);
