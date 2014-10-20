@@ -74,8 +74,8 @@ public class Dance1 extends BasicGameState {
 	private final float baseDanceDuration = 540.0f;
 	private int danceDuration = (int) baseDanceDuration;
 	private int tic = 0;
-	private LinkedList<Integer[]> steps;
-	private int offset = Integer.MIN_VALUE;
+	private LinkedList<Float[]> steps;
+	private float offset = 8.539f;
 	private Player shooter;
 	public Dance1(int numPlayers) {
 		this.numPlayers = numPlayers;
@@ -84,8 +84,6 @@ public class Dance1 extends BasicGameState {
 	}
 
 	public void resetAll(int n){
-
-		offset = Integer.MIN_VALUE;
 		if(characters!=null){
 			for(Player p : characters){
 				p.reset();
@@ -128,7 +126,8 @@ public class Dance1 extends BasicGameState {
 		controller.add(new PlayerController(shooter,characters));
 		camera = new Camera(characters.get(0));
 		try {
-			steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
+			steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream-off.txt");
+			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
 			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Hardcore-Overdoze.txt");//Day-dream.txt");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -166,7 +165,7 @@ public class Dance1 extends BasicGameState {
 				winnerWord += "Player "+player.getNumPlayer() +" ";
 				hasWinner = true;
 				if(stopTimer==-1)
-					stopTimer = 180;
+					stopTimer = 360;
 			}
 
 		}
@@ -174,7 +173,7 @@ public class Dance1 extends BasicGameState {
 			hasWinner = true;
 			winnerWord += "Shooter winner ! ";
 			if(stopTimer==-1)
-				stopTimer = 180;
+				stopTimer = 360;
 		}
 		if(hasWinner)
 			g.drawString(winnerWord,600,400);
@@ -360,24 +359,35 @@ public class Dance1 extends BasicGameState {
 
 		int ticFromBottomToUp = 515;//Math.max(offset, (int)((Engine.WINDOW_SIZE.height-Arrow.default_arrivalY)/(.15f * delta * Arrow.arrowSpeed )));
 		//System.out.println((int)((Engine.WINDOW_SIZE.height-Arrow.default_arrivalY)/(.15f * delta * Arrow.arrowSpeed )));
+		
+		/*
 		if(!steps.isEmpty() && (steps.getFirst()[0]-ticFromBottomToUp) < (tic))
 			steps.pop();
 		if(!steps.isEmpty() && (steps.getFirst()[0]-ticFromBottomToUp) == (tic)){
 			addArrow(steps.pop());
 
 		}
-		characters.get(0).setCompteur(tic);
-		for(Arrow arr : movingArrows){
-			if(arr.getTicTime() == (tic)){
+		*/
+		float position = background.getPosition();
+		if(!steps.isEmpty() && (steps.getFirst()[0]-offset) < (position))
+			steps.pop();
+		if(!steps.isEmpty() && ((steps.getFirst()[0]-offset) - (position))<0.01f){
+			addArrow(steps.pop());
 
+		}
+
+		for(Arrow arr : movingArrows){
+			if(arr.isDisable())
+				continue;
+			if( (arr.getMusicTicTime()-(position))<0.03f){// && (arr.getMusicTicTime()-(position))>0){
 				for(Player player:characters){
 					if(!player.isPlayer())
 						player.move(arr.getOrientation());
 				}
 			}else{
-				if((arr.getTicTime() - (tic)) < 12 && (arr.getTicTime() - (tic)) > 0){
+				if((arr.getMusicTicTime() - (position)) < 0.15f && (arr.getMusicTicTime() - (position)) > 0){
 					for(Player player:characters){
-						if(!player.isPlayer() && Math.random()<(0.03*(arr.getTicTime() - (tic))/11))
+						if(!player.isPlayer() && Math.random()<(0.03*(arr.getMusicTicTime() - (position))/0.15f))
 							player.move(arr.getOrientation());
 					}
 				}
@@ -388,9 +398,9 @@ public class Dance1 extends BasicGameState {
 	}
 
 
-	private void addArrow(Integer[] pop) {
+	private void addArrow(Float[] pop) {
 		Direction dir = Direction.up;
-		switch(pop[1]){
+		switch(Math.round(pop[1])){
 		case Input.KEY_UP:
 			dir = Direction.up;break;
 		case Input.KEY_DOWN:
@@ -404,11 +414,12 @@ public class Dance1 extends BasicGameState {
 			if(arr.isDisable()){
 				arr.setOrientation(dir);
 				arr.reset();
-				arr.setTicTime(pop[0]);
+				arr.setMusicTicTime(pop[0]);
 				return;
 			}
 		}
 	}
+
 
 	@Override
 	public int getID(){

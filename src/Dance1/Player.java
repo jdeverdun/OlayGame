@@ -341,7 +341,8 @@ public class Player {
 		this.isDancing = isDancing;
 	}
 	public void logKey(int key) {
-		System.out.println(compteur+"@@"+key);
+		System.out.println(Dance1.background.getPosition()+"@@"+key);
+		
 	}
 	public void move(Direction key){
 		if(status==BotStatus.Dead)

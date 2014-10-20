@@ -30,6 +30,7 @@ import Run1.Run1.GameMode;
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
 public class Arrow {
+	
     private float x = 600, y = 300;
     private boolean onStair = false;
     private Animation[] animations = new Animation[10];
@@ -45,8 +46,8 @@ public class Arrow {
 
 	private boolean disable = false;
     public static float arrowSpeed = 0.6f;
-    private int ticTime = -1;
-    
+    private float musicTicTime;
+	public long timeDebut = 0;
     public enum Direction{left,right,up,down};
 
     public Arrow(Map map, boolean isfixed, Direction dir) {
@@ -211,6 +212,7 @@ public class Arrow {
 	}
 
 	public void reset() {
+		timeDebut = System.currentTimeMillis();
 		try {
 			init();
 		} catch (SlickException e) {
@@ -242,7 +244,6 @@ public class Arrow {
 		    dy = -arrowSpeed;
 		}
 	    onStair = false;
-	    ticTime = -1;
 	    arrivalY = default_arrivalY;
 	    dureePause = 0;
 	}
@@ -269,6 +270,8 @@ public class Arrow {
 	 */
 	public void setDisable(boolean disable) {
 		this.disable = disable;
+		/*if(disable)
+			System.out.println(timeDebut+"---"+System.currentTimeMillis()+"---"+(System.currentTimeMillis()-timeDebut));*/
 	}
 
     public Direction getOrientation() {
@@ -277,11 +280,19 @@ public class Arrow {
 	public void setOrientation(Direction orientation) {
 		this.orientation = orientation;
 	}
-	public void setTicTime(Integer tic) {
-		ticTime = tic;
+
+	/**
+	 * @return the musicTicTime
+	 */
+	public float getMusicTicTime() {
+		return musicTicTime;
 	}
-	public int getTicTime(){
-		return ticTime;
+	/**
+	 * @param musicTicTime the musicTicTime to set
+	 */
+	public void setMusicTicTime(float musicTicTime) {
+		this.musicTicTime = musicTicTime;
 	}
+
 
 }

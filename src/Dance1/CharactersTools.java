@@ -50,5 +50,19 @@ public class CharactersTools {
 	    }
 		return steps;
 	}
+	
+	public static LinkedList<Float[]> parseDanceFileSoundRef(String file) throws FileNotFoundException, IOException{
+		LinkedList<Float[]> steps = new LinkedList<Float[]>();
+		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+	        String line = br.readLine();
+	        String[] content = line.split("@@");
+	        steps.add(new Float[]{Float.parseFloat(content[0]),Float.parseFloat(content[1])});
+	        while ((line = br.readLine()) != null) {
+	            content = line.split("@@");
+	            steps.add(new Float[]{Float.parseFloat(content[0]),Float.parseFloat(content[1])});
+	        }
+	    }
+		return steps;
+	}
 
 }
