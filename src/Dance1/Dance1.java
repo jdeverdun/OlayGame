@@ -46,7 +46,7 @@ import Dance1.Player.BotStatus;
  */
 public class Dance1 extends BasicGameState {
 
-	private int numberOfChar = 30;
+	private int numberOfChar = 40;
 	private int numberOfClouds = 6;
 	private GameContainer container;
 	private Map map = new Map();
@@ -62,7 +62,7 @@ public class Dance1 extends BasicGameState {
 	private int startTimer = 180;
 	private int stopTimer = -1;
 	private GameMode currentGameMode = GameMode.Dance1;
-	private int numPlayers;
+	public static int numPlayers;
 	public enum GameMode{Run1,Run2, Dance1};
 	public static Music background;
 	public static File currentMusic;
@@ -172,6 +172,7 @@ public class Dance1 extends BasicGameState {
 			}
 
 		}
+        g.drawString("Shoot : "+shooter.getAvailableShot(), 20, (float) (Engine.WINDOW_SIZE.getHeight()-50));
 		if(shooter.isWinner()){
 			hasWinner = true;
 			winnerWord += "Shooter winner ! ";
@@ -182,6 +183,8 @@ public class Dance1 extends BasicGameState {
 			g.drawString(winnerWord,600,400);
 
 
+
+		this.map.renderForeground();
 		for(Player player:characters){
 			player.render(g);
 			if(player.getStatus() != BotStatus.Dead){
@@ -190,7 +193,6 @@ public class Dance1 extends BasicGameState {
 			}
 
 		}
-		this.map.renderForeground();
 		for(Cloud cloud:clouds){
 			cloud.render(g);
 		}
@@ -218,7 +220,16 @@ public class Dance1 extends BasicGameState {
 						//g.drawString("Next dance : "+timerToDance, 600, 400);
 						Hud.XP_WIDTH_PERC = (baseDanceDuration-(float)timerToDance)/baseDanceDuration;
 					}
+		//mode highlight
+		if(stopTimer==360){
+			for(Player player:characters){
+				if(player.getStatus() != BotStatus.Dead && player.isPlayer() && !player.isShooter()){
+					player.setHighlight(true);
+				}
 
+			}
+		}
+			
 	}
 
 	/**
@@ -240,7 +251,7 @@ public class Dance1 extends BasicGameState {
 		container.setMouseCursor("sprites/cursor/crosshair.png", 32,32);
 		File[] listm = new File(Engine.INSTALL_FOLDER + File.separator + "src" + File.separator + "sound" + File.separator + "dance").listFiles();
 		Random r = new Random();
-		currentMusic = listm[2];//r.nextInt(listm.length)];
+		currentMusic = listm[r.nextInt(listm.length)];
 		resetAll(numPlayers);
 		this.container = container;
 
@@ -395,12 +406,12 @@ public class Dance1 extends BasicGameState {
 						player.move(arr.getOrientation());
 				}
 			}else{
-				if((arr.getMusicTicTime() - (position)) < 0.15f && (arr.getMusicTicTime() - (position)) > 0){
+				/*if((arr.getMusicTicTime() - (position)) < 0.15f && (arr.getMusicTicTime() - (position)) > 0){
 					for(Player player:characters){
 						if(!player.isPlayer() && Math.random()<(0.03*(arr.getMusicTicTime() - (position))/0.15f))
 							player.move(arr.getOrientation());
 					}
-				}
+				}*/
 			}
 		}
 
@@ -434,5 +445,13 @@ public class Dance1 extends BasicGameState {
 	@Override
 	public int getID(){
 		return States.GAME_DANCE1;
+	}
+
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+
+	public void setNumPlayers(int numPlayers) {
+		this.numPlayers = numPlayers;
 	}
 }

@@ -47,11 +47,11 @@ public class Engine extends StateBasedGame{
 		/*Music background = new Music("sound/love.ogg");
         background.loop();*/
 		this.addState(new Menu());
-		this.addState(new Run1(3));
-		this.addState(new Run2(3));
-		this.addState(new Run3(3));
-		this.addState(new FogWar1(3));
-		this.addState(new Dance1(4));
+		this.addState(new Run1(4));
+		this.addState(new Run2(4));
+		this.addState(new Run3(4));
+		this.addState(new FogWar1(4));
+		this.addState(new Dance1(5));
 	}
 
 	private void initSounds() {

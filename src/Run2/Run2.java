@@ -132,7 +132,6 @@ public class Run2 extends BasicGameState {
         }
         this.map.renderForeground();
         for(Player player:characters){
-			player.render(g);
 			if(player.getStatus() != BotStatus.Dead){
 				g.setColor(Color.green);
 				g.drawString("Player "+player.getNumPlayer(),Engine.WINDOW_SIZE.width-(100*player.getNumPlayer()),10);

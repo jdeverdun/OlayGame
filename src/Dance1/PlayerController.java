@@ -140,7 +140,9 @@ public class PlayerController implements KeyListener,MouseListener {
 			cursor_left_local = CURSOR_LEFT_PLAYER4;
 			shoot_local = SHOOT_PLAYER4;
 			break;
+			
 		}
+		
 	}
 	public void update() {
 		if (input.getControllerCount() > 0) {

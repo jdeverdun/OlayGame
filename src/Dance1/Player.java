@@ -9,6 +9,8 @@ package Dance1;
 
 import java.awt.Point;
 
+import lesson14.Engine;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -49,6 +51,7 @@ public class Player {
 	private boolean gauche = true;
 	public int compteur = 0;
 	private boolean shooter = false;
+	private boolean highlight;
 	
     public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,Dance,Dead,None};// que fait le bot
 
@@ -60,7 +63,8 @@ public class Player {
         shooter = false;
         gauche = true;
         compteur = 0;
-        setAvailableShot(3);
+        highlight = false;
+        setAvailableShot(Dance1.numPlayers+1);
         
     }
     public Player(Player p) {// pour copy
@@ -74,7 +78,7 @@ public class Player {
         this.isWinner = p.isWinner;
         this.isPlayer = p.isPlayer;
         this.shooter = p.shooter;
-        setAvailableShot(3);
+        setAvailableShot(Dance1.numPlayers);
     }
 
     public Player(Map map2, boolean b) {
@@ -108,11 +112,16 @@ public class Player {
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
         g.fillOval((int) x - 16, (int) y - 8, 32, 16);
+        
         if(isPlayer()){
 	        if(status == BotStatus.Dead)
 	        	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-	        else
-	        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+	        else{
+	        	if(highlight)
+	        		animations[2].draw((int) x - 64, (int) y - 120, Math.round(animations[2].getWidth()*2f), Math.round(animations[2].getHeight()*2f));
+	        	else
+	        		g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+	        }
         }
         if(!isPlayer()){
 
@@ -305,7 +314,8 @@ public class Player {
 		isWinner = false;
 		numPlayer = -1;
         isDancing = false;
-		setAvailableShot(3);
+        highlight = false;
+		setAvailableShot(Dance1.numPlayers);
 	}
 	/**
 	 * @return the numPlayer
@@ -373,5 +383,8 @@ public class Player {
 	}
 	public void setCompteur(int t){
 		compteur = t;;
+	}
+	public void setHighlight(boolean b) {
+		highlight = b;
 	}
 }
