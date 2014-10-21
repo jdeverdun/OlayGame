@@ -7,6 +7,8 @@
 package Dance1;
 
 
+import java.awt.Point;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -216,6 +218,10 @@ public class Player {
         dy = 0;
     }
 
+    public float distanceTo(Player p){
+    	return (float) Point.distance(p.getX(), p.getY(), getX(), getY());
+    	//return (float) Math.sqrt(Math.pow(p.getX()-getX(), 2)+Math.pow(p.getY()-getY(), 2));
+    }
     public boolean isOnStair() {
         return onStair;
     }

@@ -1,6 +1,8 @@
 package lesson14;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.io.IOException;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -17,12 +19,19 @@ import Run3.Run3;
 public class Engine extends StateBasedGame{
 
 	public static final Dimension WINDOW_SIZE = new Dimension(1248,864);
+	public static String INSTALL_FOLDER;
 	
 	public Engine()  {
 		super("ASY");
 	}
 
 	 public static void main(String[] args) throws SlickException {
+		 try {
+			INSTALL_FOLDER = new File(".").getCanonicalPath();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         new AppGameContainer(new Engine(), WINDOW_SIZE.width, WINDOW_SIZE.height, false).start();
     }
 	 

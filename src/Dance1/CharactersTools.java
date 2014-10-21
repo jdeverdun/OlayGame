@@ -24,13 +24,16 @@ public class CharactersTools {
 
 	public static void init(ArrayList<Player> characterlist){
 		ArrayList<Animation[]> listanim = CharactersToolsGlobal.getCharAnimations();
-		for(Player p:characterlist){
+		for(int i = 0;i<characterlist.size();i++){
+			Player p = characterlist.get(i);
 			try {
 				int code = 0 + (int)(Math.random() * ((listanim.size()-1 - 0) + 1));
 				p.init();
 				p.setAnimations(listanim.get(code));
-				p.setY(167 + (int)(Math.random() * ((749 - 167) + 1)));
-				p.setX(172 + (int)(Math.random() * ((871 - 172) + 1)));
+				p.setY(167.0f + ((float)Math.random() * ((749.0f - 167.0f) + 1.0f)));
+				p.setX(172.0f + ((float)Math.random() * ((871.0f - 172.0f) + 1.0f)));
+
+				
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

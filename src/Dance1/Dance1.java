@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 
 import lesson14.Engine;
@@ -64,7 +65,7 @@ public class Dance1 extends BasicGameState {
 	private int numPlayers;
 	public enum GameMode{Run1,Run2, Dance1};
 	public static Music background;
-
+	public static File currentMusic;
 
 	// dance
 	private boolean dance = false;
@@ -80,7 +81,7 @@ public class Dance1 extends BasicGameState {
 	public Dance1(int numPlayers) {
 		this.numPlayers = numPlayers;
 
-		resetAll(numPlayers);
+		
 	}
 
 	public void resetAll(int n){
@@ -126,7 +127,9 @@ public class Dance1 extends BasicGameState {
 		controller.add(new PlayerController(shooter,characters));
 		camera = new Camera(characters.get(0));
 		try {
-			steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream-off.txt");
+			steps = CharactersTools.parseDanceFileSoundRef(Engine.INSTALL_FOLDER + "/src/danceTrack"+File.separator+currentMusic.getName().substring(0,currentMusic.getName().length()-4)+".txt");
+			//steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"butterfly.txt");
+			//steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream-off.txt");
 			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
 			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Hardcore-Overdoze.txt");//Day-dream.txt");
 		} catch (IOException e) {
@@ -235,6 +238,9 @@ public class Dance1 extends BasicGameState {
 	@Override
 	public void enter(GameContainer container,StateBasedGame s) throws SlickException{
 		container.setMouseCursor("sprites/cursor/crosshair.png", 32,32);
+		File[] listm = new File(Engine.INSTALL_FOLDER + File.separator + "src" + File.separator + "sound" + File.separator + "dance").listFiles();
+		Random r = new Random();
+		currentMusic = listm[2];//r.nextInt(listm.length)];
 		resetAll(numPlayers);
 		this.container = container;
 
@@ -250,9 +256,13 @@ public class Dance1 extends BasicGameState {
 			else
 				container.getInput().addMouseListener(contr);
 		}
-		if(background==null)
+	//	if(background==null)
+			
 			try {
-				background = new Music("sound/Day-Dream.ogg");
+				background = new Music(currentMusic.getAbsolutePath());
+				//background = new Music("sound/loituma.ogg");
+				//background = new Music("sound/butterfly.ogg");
+				//background = new Music("sound/Day-Dream.ogg");
 				//background = new Music("sound/Hardcore-Overdoze.ogg");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
