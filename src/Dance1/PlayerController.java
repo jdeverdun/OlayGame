@@ -1,14 +1,23 @@
 package Dance1;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
 import org.newdawn.slick.MouseListener;
 import java.util.ArrayList;
+
+import lesson14.AudioFilePlayer;
+import lesson14.Engine;
 
 import org.newdawn.slick.ControllerListener;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 import Dance1.Player.BotStatus;
 
@@ -19,7 +28,6 @@ import Dance1.Player.BotStatus;
  *         GCS d- s+:+ a+ C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y-
  */
 public class PlayerController implements KeyListener,MouseListener {
-	public static  Music m=null;
 	// commandes par defaut
 	public static final int UP_PLAYER1 = Input.KEY_UP;
 	public static final int DOWN_PLAYER1 = Input.KEY_DOWN;
@@ -79,13 +87,6 @@ public class PlayerController implements KeyListener,MouseListener {
 
 
 	public PlayerController(Player player, ArrayList<Player> chars) {
-		/*if(m==null)
-			try {
-				m = new Music("sound/tir.ogg");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 		this.player = player;
 		this.characters = chars;
 		setCommands();
@@ -205,21 +206,32 @@ public class PlayerController implements KeyListener,MouseListener {
 			if(player.getAvailableShot()<=0){
 				return;
 			}
-			for(Player p:characters){
+			float minDist = Float.MAX_VALUE;
+			int pid = -1;
+			for(int i = 0 ; i < characters.size();i++){
+				Player p = characters.get(i);
 				float dist = (float) Math.sqrt((p.getX()-x)*(p.getX()-x) + (p.getY()-10-y)*(p.getY()-10-y));
-				if(dist<20 && (p.getNumPlayer()!=player.getNumPlayer() || p.getNumPlayer() == -1) &&  p.getStatus()!=BotStatus.Dead){
-					p.kill();
-					player.setAvailableShot(player.getAvailableShot()-1);
-					break;
+				if(dist<minDist && (p.getNumPlayer()!=player.getNumPlayer() || p.getNumPlayer() == -1) &&  p.getStatus()!=BotStatus.Dead){
+					minDist = dist;
+					pid = i;
 				}
+			}
+			if(minDist<30){
+				Player p = characters.get(pid);
+				p.kill();
+				player.setAvailableShot(player.getAvailableShot()-1);
+				Engine.SHOT_SOUND.playAsSoundEffect(1.0f, 1.0f, false);
+			}
 				
+				
+				
+
 				/*Dance1.background.pause();
 				float pos = Dance1.background.getPosition();
 				m.play();
 				
 				Dance1.background.play();
 				Dance1.background.setPosition(pos+2.0f);*/
-			}
 		}
 
 	}

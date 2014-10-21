@@ -11,11 +11,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import lesson14.Engine;
 import lesson14.Hud;
 import lesson14.States;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -24,6 +26,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import Run1.Player;
 import Run1.Player.BotStatus;
 
 /**
@@ -106,6 +109,14 @@ public class Run1 extends BasicGameState {
 	        }
         }
         this.map.renderForeground();
+        for(Player player:characters){
+			player.render(g);
+			if(player.getStatus() != BotStatus.Dead){
+				g.setColor(Color.green);
+				g.drawString("Player "+player.getNumPlayer(),Engine.WINDOW_SIZE.width-(100*player.getNumPlayer()),10);
+			}
+
+		}
         //this.hud.render(g);
         // cursor
         for(Player player:characters){

@@ -8,7 +8,10 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.ResourceLoader;
 
 import Dance1.Dance1;
 import FogWar1.FogWar1;
@@ -20,7 +23,7 @@ public class Engine extends StateBasedGame{
 
 	public static final Dimension WINDOW_SIZE = new Dimension(1248,864);
 	public static String INSTALL_FOLDER;
-	
+	public static Audio SHOT_SOUND;
 	public Engine()  {
 		super("ASY");
 	}
@@ -40,6 +43,7 @@ public class Engine extends StateBasedGame{
 		gc.setMaximumLogicUpdateInterval(60);
 		gc.setTargetFrameRate(60);
 		gc.setVSync(true);
+		initSounds();
 		/*Music background = new Music("sound/love.ogg");
         background.loop();*/
 		this.addState(new Menu());
@@ -48,6 +52,17 @@ public class Engine extends StateBasedGame{
 		this.addState(new Run3(3));
 		this.addState(new FogWar1(3));
 		this.addState(new Dance1(4));
+	}
+
+	private void initSounds() {
+		if(SHOT_SOUND==null)
+			try {
+				SHOT_SOUND = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sound/tir.ogg"));
+				//m = new Music("sound/tir.ogg");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }

@@ -4,10 +4,13 @@ import java.awt.event.MouseEvent;
 import org.newdawn.slick.MouseListener;
 import java.util.ArrayList;
 
+import lesson14.Engine;
+
 import org.newdawn.slick.ControllerListener;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
 
+import Run3.Player;
 import Run3.Player.BotStatus;
 
 /**
@@ -200,17 +203,26 @@ public class PlayerController implements KeyListener,MouseListener {
         	if(player.getAvailableShot()<=0){
     			return;
         	}
-    		for(Player p:characters){
-    			float dist = (float) Math.sqrt((p.getX()-this.player.getCursor().getX())*(p.getX()-this.player.getCursor().getX()) + (p.getY()-10-this.player.getCursor().getY())*(p.getY()-10-this.player.getCursor().getY()));
-    			if((dist<40 && p.getNumPlayer()!=player.getNumPlayer() &&  p.getStatus()!=BotStatus.Dead)){
-    				p.kill();
-    				player.setAvailableShot(player.getAvailableShot()-1);
-    				if(player.getAvailableShot()<=0){
-    	        		this.player.getCursor().disable();
-    	        	}
-    				break;
-    			}
-    		}
+        	float minDist = Float.MAX_VALUE;
+			int pid = -1;
+			for(int i = 0 ; i < characters.size();i++){
+				Player p = characters.get(i);
+				float dist = (float) Math.sqrt((p.getX()-this.player.getCursor().getX())*(p.getX()-this.player.getCursor().getX()) + (p.getY()-10-this.player.getCursor().getY())*(p.getY()-10-this.player.getCursor().getY()));
+				if(dist<minDist && p.getNumPlayer()!=player.getNumPlayer() &&  p.getStatus() != BotStatus.Dead){
+					minDist = dist;
+					pid = i;
+				}
+			}
+    		
+			if(minDist<40){
+				Player p = characters.get(pid);
+				p.kill();
+				player.setAvailableShot(player.getAvailableShot()-1);
+				if(player.getAvailableShot()<=0){
+	        		this.player.getCursor().disable();
+	        	}
+				Engine.SHOT_SOUND.playAsSoundEffect(1.0f, 1.0f, false);
+			}
         }
     }
 

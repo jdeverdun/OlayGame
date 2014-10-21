@@ -4,6 +4,8 @@ import java.awt.event.MouseEvent;
 import org.newdawn.slick.MouseListener;
 import java.util.ArrayList;
 
+import lesson14.Engine;
+
 import org.newdawn.slick.ControllerListener;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.KeyListener;
@@ -206,7 +208,9 @@ public class PlayerController implements KeyListener,MouseListener {
     				if(player.getAvailableShot()<=0){
     	        		this.player.getCursor().disable();
     	        	}
+    				Engine.SHOT_SOUND.playAsSoundEffect(1.0f, 1.0f, false);
     				break;
+    				
     			}
     		}
         }
