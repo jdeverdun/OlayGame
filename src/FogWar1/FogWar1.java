@@ -41,7 +41,6 @@ public class FogWar1 extends BasicGameState {
     private Map map = new Map();
     private ArrayList<Player> characters;
     private ArrayList<TriggerController> triggers;
-    private DisturbPlayer disturber;
     private Camera camera;
     private ArrayList<PlayerController> controller;
     private Hud hud = new Hud();
@@ -49,12 +48,14 @@ public class FogWar1 extends BasicGameState {
     private int stopTimer = -1;
     private GameMode currentGameMode = GameMode.FogWar1;
     private int numPlayers;
+    private Player monster;
     public enum GameMode{Run1, FogWar1};
-
+    public static Music background;
    
 
     public FogWar1(int numPlayers) {
         this.numPlayers = numPlayers;
+        this.numberOfChar = numPlayers;
         resetAll(numPlayers);
     }
     
@@ -64,6 +65,7 @@ public class FogWar1 extends BasicGameState {
     			p.reset();
     		}
     	}
+
     	characters = new ArrayList<Player>(numberOfChar);
 		for(int i = 0; i<numberOfChar; i++){
 			characters.add(new Player(map));
@@ -71,15 +73,17 @@ public class FogWar1 extends BasicGameState {
 		// players
 		triggers = new ArrayList<TriggerController>();
 		controller = new ArrayList<PlayerController>();
-		for(int i = 0; i<n; i++){
+		for(int i = 0; i<n-1; i++){
 			characters.get(i).setPlayer(true);
-			characters.get(i).setNumPlayer(i+1);
+			characters.get(i).setNumPlayer(i+2);
 			controller.add(new PlayerController(characters.get(i),characters));
 			triggers.add(new TriggerController(map, characters.get(i)));
 		}
+		monster = new Player(map,true);
+		monster.setNumPlayer(1);
+		
+		controller.add(new PlayerController(monster,characters));
 		camera = new Camera(characters.get(0));
-		// disturber he man
-		disturber = new DisturbPlayer(map);
 		startTimer = 180;
 		stopTimer = -1;
     }
@@ -106,6 +110,7 @@ public class FogWar1 extends BasicGameState {
 	            		stopTimer = 180;
 	        	}
 	        }
+	        monster.render(g);
         }
         this.map.renderForeground();
         //this.hud.render(g);
@@ -122,7 +127,6 @@ public class FogWar1 extends BasicGameState {
         	else
         		if(startTimer > 0)
                 	g.drawString("1", 500, 500);
-        disturber.render(g);
     }
     
     /**
@@ -142,25 +146,30 @@ public class FogWar1 extends BasicGameState {
 	@Override
     public void enter(GameContainer container,StateBasedGame s) throws SlickException{
     	resetAll(numPlayers);
+    	if(background == null)
+    		background = new Music("sound/lost-in-the-meadows.ogg");
+    	background.loop();
         this.container = container;
+        
+
+
         
         this.map.init();
         CharactersTools.init(characters);
         for(Player player:characters)
 	        player.init();
+        monster.init();
         //this.hud.init();
         for(PlayerController contr:controller){
         	contr.setInput(container.getInput());
         	container.getInput().addKeyListener(contr);
         	container.getInput().addMouseListener(contr);
         }
-        disturber.init();
     }
     
     @Override
     public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
     	if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
-    		disturber.stopMusic();
         	s.enterState(States.MENU);
     	}
     	for(PlayerController contr:controller)
@@ -178,6 +187,7 @@ public class FogWar1 extends BasicGameState {
 	        	player.update(delta);
 	        	count++;
 	        }
+	        monster.update(delta);
 	        // cursor
 	        for(Player player:characters){
 	        	if(player.getCursor() != null)
@@ -189,7 +199,6 @@ public class FogWar1 extends BasicGameState {
         	if(stopTimer > 0)
         		stopTimer--;
         }
-        disturber.update(delta);
     	
        //this.camera.update(container);
     }

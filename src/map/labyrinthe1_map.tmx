@@ -56,35 +56,41 @@
  </tileset>
  <layer name="background" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UQQqAIBCF4UkiF25y7n+fTtS+QiQZkIQaHOMN/JCL6FMhojThbJ7uAtkoT/b19tR8ZNznXVrHhne4o6/Wkzs27u0L37boBR98I/jYsK/8D1j04X7/f37wwQcffPAN6HN6Xd/Z/TufbC2eWay1K0daLHQAxkPwCOAQAAA=
+   H4sIAAAAAAAAC+3OsQ0AMAgDsKyIq+D/o/pEpQ714N2dpAEALplKtt4/AIC/HEnKUf7gEAAA
   </data>
  </layer>
  <layer name="Calque 2" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC9WXSwrCMBCGk7So4ANRF75Ooq49g9ieT72Dj6XtHXws1TOoC/9CF1Jqm6SZEgd+ZmiTycfkRVzOmAtF1oBvQi1eTrwXjB1y5H7xdeC7UI/Tx5Gp8NXRvg8/gIacPlbleyJ+lai3UOMbOoyNoC2+TR067ZDfhx87enxRP0r7HscaPuQX3F6+CvLXLOLjGf9M881FcV5KPtNWhG9pOZ/t9ZPhW6HPGtpIrMs18m4Sm4Wa74g+ARQm+NL2UYC8oUE+T4Lvhj536KG5r/9h/S2qdvPp1s9P4WvE66eVdSmUxGd7/Uzy/boXKfjc2KedZ6pGwcdjxrTzTIfPs2B+s/iK1O8kaN9FZ6HHN5F425jUTJGvbnAO25LtLhj/mqMPjiUOM+AQAAA=
+   H4sIAAAAAAAAC+2WawrCMAyAMxX2R2R6Ao+mMM/hZPOteAXxhycRzyGexAQKVmm2rg9XxQ/CntBvbZI1A4BdoDHD2MDnGWi+t4Jm/HT5Jb9zBHCNzMfqi6gD55e2zT04EnDnV3jwM6Hp/Bu1yp+78FOl5BHHPVWMrYOv+buh2z1gP1eY+CWWY3aY+3OMMSbLAo9LcS+k+SMX8lvD00n2o++q234nMfZKEXTuwu/A+JXB9es0fg0btsKP9i37Cr/p2zXXr8kpd+Snwjb/Lg7XV4XsN/TwT6OalOuxLjrz1xVF0zPYu1BOyflUl5D6i4q/nx5c6oTix0F+OdjVmE/ILwO7GvPJN61viFFgPABFsxnQ4BAAAA==
   </data>
  </layer>
  <layer name="Calque 5" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XQQqAIBSE4RGitt2vK1RXT4paZ7QJCUMi3wTzwex/BAU9uC3WAQ+ufb0DhkKrq/w+Rkdfax2R8IfzY7aFdY11hXxlCvPWEQkzuO+I+t5h71txvoEiIiI5mP9GsZL/33iju2/aASmUURTgEAAA
+   H4sIAAAAAAAAC+3RMQ4AEBBEURS4psu7BMG2GlFIpvBfMu3OJOscAOCVZunqEQfDMtUjPlS8qNh6w0W3al+03izcV9ObO7L/AgCAzQKUZTXi4BAAAA==
   </data>
  </layer>
  <layer name="avant plan" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3OMQoAIBADwbsHqX/0uzaCYK2dpZVEuB0IpNxuR3KzvFf8/QcAAP9q6gCEV9UBeKarAy6GOuDi976pDkBoC3HRi1HgEAAA
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ43oAAAAAC+DYoNX5/gEAAA
   </data>
  </layer>
  <layer name="cime" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3WsQ0AIAwDQRfZFzaBTciIZAYgCIm/3pZLS/hJManau90t8j1p34nuEXlP2pfZDQAAgDX8570O/jNummS62PDgEAAA
+   H4sIAAAAAAAAC2NgGAWjYBSQAlKYB9oF+EHLIHffKBgFQwEks2NnDxbgyo6dPQqIAy1IYaZKZPj5cDIw+HLSxj3oYAkZ8ZsDdFsundxHDugBuq13ELtvFIyCUTAKRsHwAAA4Bspp4BAAAA==
   </data>
  </layer>
  <layer name="logic" width="40" height="27" opacity="0.55">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+2XwQkAMAjEdOuO3xmkhLOQgM8L+VolsofT/L32kdiX9duX3dN++7J72m9fdk/77cvuab992T3t/6Fv8/8hMy4OjT1X4BAAAA==
+   H4sIAAAAAAAAC71Xi46DMAxb/5rX6LSB2Pjqo7pF53lOG2nTWaqAAqnjmrQs6XQ6H219Hv+jdY37C3C6HI3Rpb9mmNNv+wa6RhzjlI/jI8XG7o/7Az2jdFjgmTW9jofvzaIhyvVe0a+G8amt8b0exxu8k524DMxrFc97cYwfzrNqhu04vz+vH9C/O/pF0eJXwNoweM4LJurjMcYgX+TH2lg/amOxcV5wPPMV+ov5jcLH1s95Kf369Dq/+H4nYuN47Fvl4wFyQp+o74/1Y3QQi9/t07sP7Zw90ZM2Kp6nn9KKxxsoNsbJgh97QnFkRPVTeRTc4DmMs0Ft6BucWhwZSj/O49rwVOGdqQ9zRM7mOcXRYszgjVod9Wo091+IH37fBvQj5o95ZNAJ1zev5jKPe3rvV+cL6GBtF35krh6/mn413p6+rbXC87fxO0MukfXD48KeY368bzBulu8Efd43E6l/pr+KwbqWubT9kFoTsWZaXFVXPH61fYuqDZ6GBvW91vjU+BlHdfSwpfd5vBMXtSYad86Xx/P4KdTqajQfhLffjfLjZ02LKZjPIrSt7UUj/CLgNczjWeJek97Ds289/Vv8cP2LANfwEpf9uTr8WuPzvFnuezCO8sIjoFvt/4j5DcSP90if1Ozofebt/b/xP+cc1DILv/E6XOPJ/fj/uzdif7N5Y3F/uf4BENl5ceAQAAA=
   </data>
  </layer>
- <objectgroup name="trigger" width="144" height="883">
-  <object name="win-zone" type="win-game" x="1120" y="1" width="144" height="883"/>
+ <objectgroup name="trigger">
+  <object name="win-zone" type="win-game" x="502" y="442" width="79" height="72"/>
+ </objectgroup>
+ <objectgroup name="trigger2">
+  <object name="tp-zone" type="win-game" x="896" y="800" width="50" height="46"/>
+  <object name="tp-zone" type="win-game" x="876" y="21" width="50" height="46"/>
+  <object name="tp-zone" type="win-game" x="428" y="685" width="50" height="46"/>
+  <object name="tp-zone" type="win-game" x="259" y="217" width="50" height="46"/>
  </objectgroup>
 </map>

@@ -160,13 +160,13 @@ public class PlayerController implements KeyListener,MouseListener {
     @Override
     public void keyPressed(int key, char c) {
     	if(key == up_local)
-    		return;
+    		this.player.setDy(-0.3f);
     	else if(key == down_local)
-    		this.player.setDx(0.3f);
+    		this.player.setDy(0.3f);
     	else if(key == right_local)
-    		this.player.setDx(1);
+    		this.player.setDx(0.3f);
     	else if(key == left_local)
-    		return;
+    		this.player.setDx(-0.3f);
     	else if(key == cursor_down_local)
     		this.player.getCursor().setDy(2.5f);
     	else if(key == cursor_up_local)
@@ -181,13 +181,13 @@ public class PlayerController implements KeyListener,MouseListener {
 	@Override
     public void keyReleased(int key, char c) {
     	if(key == up_local)
-    		return;
+    		this.player.setDy(0);
     	else if(key == down_local)
-    		this.player.setDx(0);
+    		this.player.setDy(0);
     	else if(key == right_local)
     		this.player.setDx(0);
     	else if(key == left_local)
-    		return;
+    		this.player.setDx(0);
     	else if(key == cursor_down_local)
     		this.player.getCursor().setDy(0);
     	else if(key == cursor_up_local)

@@ -15,7 +15,7 @@ public class Map {
     private TiledMap tiledMap;
     private int currentMap = -1;
     public void init() throws SlickException {
-		this.tiledMap = new TiledMap("map/run_map.tmx");
+		this.tiledMap = new TiledMap("map/labyrinthe1_map.tmx");
 		currentMap = 0;
     }
 

@@ -42,6 +42,7 @@ public class Player {
     private float arrivalY = Float.MAX_VALUE;
     private int dureePause = 0;
 	private boolean isWinner = false;
+	private boolean monster;
     
     
     public enum BotStatus{MoveLeft,Wait,MoveUp,MoveRight,MoveDown,MoveUpRight,MoveDownRight, MoveUpLeft,MoveDownLeft,
@@ -52,6 +53,7 @@ public class Player {
         isWinner = false;
         isPlayer = false;
         cursor = null;
+        setMonster(false);
         setAvailableShot(2);
         
     }
@@ -69,16 +71,39 @@ public class Player {
         setAvailableShot(2);
     }
 
-    public void init() throws SlickException {
-        /*SpriteSheet spriteSheet = new SpriteSheet("sprites/character.png", 64, 64);
-        this.animations[0] = loadAnimation(spriteSheet, 0, 1, 0);
-        this.animations[1] = loadAnimation(spriteSheet, 0, 1, 1);
-        this.animations[2] = loadAnimation(spriteSheet, 0, 1, 2);
-        this.animations[3] = loadAnimation(spriteSheet, 0, 1, 3);
-        this.animations[4] = loadAnimation(spriteSheet, 1, 9, 0);
-        this.animations[5] = loadAnimation(spriteSheet, 1, 9, 1);
-        this.animations[6] = loadAnimation(spriteSheet, 1, 9, 2);
-        this.animations[7] = loadAnimation(spriteSheet, 1, 9, 3);*/
+    public Player(Map map2, boolean b) {
+		this(map2);
+		setMonster(b);
+	}
+	public void init() throws SlickException {
+		if(monster){
+			SpriteSheet spriteSheet,spriteSheet2;
+			try {
+				System.out.println("hello");
+				spriteSheet = new SpriteSheet("sprites/monster-pitchfork-walk.png", 64, 64);
+				spriteSheet2 = new SpriteSheet("sprites/monster-pitchfork-attack.png", 64, 64);
+		        this.animations[0] = loadAnimation(spriteSheet, 0, 4, 1);
+		        this.animations[1] = loadAnimation(spriteSheet, 0, 4, 3);
+		        this.animations[2] = loadAnimation(spriteSheet, 0, 4, 0);
+		        this.animations[3] = loadAnimation(spriteSheet, 0, 4, 2);
+		        this.animations[4] = loadAnimation(spriteSheet2, 0, 4, 1);
+		        this.animations[5] = loadAnimation(spriteSheet2, 0, 4, 3);
+		        this.animations[6] = loadAnimation(spriteSheet2, 0, 4, 0);
+		        this.animations[7] = loadAnimation(spriteSheet2, 0, 4, 2);
+	        } catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+        /*SpriteSheet spriteSheet = new SpriteSheet("sprites/monster-pitchfork-walk.png", 64, 64);
+        this.animations[0] = loadAnimation(spriteSheet, 0, 4, 1);
+        this.animations[1] = loadAnimation(spriteSheet, 0, 4, 3);
+        this.animations[2] = loadAnimation(spriteSheet, 0, 4, 0);
+        this.animations[3] = loadAnimation(spriteSheet, 0, 4, 2);
+        this.animations[4] = loadAnimation(spriteSheet, 0, 4, 1);
+        this.animations[5] = loadAnimation(spriteSheet, 0, 4, 3);
+        this.animations[6] = loadAnimation(spriteSheet, 0, 4, 0);
+        this.animations[7] = loadAnimation(spriteSheet, 0, 4, 2);*/
     	
     	/*SpriteSheet spriteSheet = new SpriteSheet("sprites/character2.png", 64, 64);
         this.animations[0] = loadAnimation(spriteSheet, 0, 1, 8);
@@ -101,11 +126,17 @@ public class Player {
 
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0, .5f));
-        g.fillOval((int) x - 16, (int) y - 8, 32, 16);
+        if(!isMonster())
+        	g.fillOval((int) x - 16, (int) y - 8, 32, 16);
         if(status == BotStatus.Dead)
         	g.drawAnimation(animations[0],(int) x - 32,(int) y - 60);
-        else
-        	g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+        else{
+        	if(!isMonster()){
+        		g.drawAnimation(animations[getDirection() + (isMoving() ? 4 : 0)], (int) x - 32, (int) y - 60);
+        	}else{
+        		g.drawAnimation(animations[getDirection() + (isMoving() ? 0 : 0)], (int) x - 32, (int) y - 60);
+        	}
+        }
         
     }
 
@@ -482,6 +513,13 @@ public class Player {
 	 */
 	public void setAvailableShot(int availableShot) {
 		this.availableShot = availableShot;
+	}
+	public boolean isMonster() {
+		return monster;
+	}
+	public void setMonster(boolean monster) {
+		this.monster = monster;
+		
 	}
 
 }
