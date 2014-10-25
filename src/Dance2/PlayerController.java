@@ -1,0 +1,281 @@
+package Dance2;
+
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+
+import org.newdawn.slick.MouseListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import lesson14.Engine;
+
+import org.newdawn.slick.ControllerListener;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.KeyListener;
+import org.newdawn.slick.Music;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.util.ResourceLoader;
+
+import Dance2.Player.BotStatus;
+
+/**
+ * Code sous licence GPLv3 (http://www.gnu.org/licenses/gpl.html)
+ * 
+ * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
+ *         GCS d- s+:+ a+ C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y-
+ */
+public class PlayerController implements KeyListener,MouseListener {
+	
+	// bases 
+	public static final int UP_DANCE = Input.KEY_UP;
+	public static final int DOWN_DANCE = Input.KEY_DOWN;
+	public static final int LEFT_DANCE = Input.KEY_LEFT;
+	public static final int RIGHT_DANCE = Input.KEY_RIGHT;
+	
+	// commandes par defaut
+	public static final int UP_PLAYER1 = Input.KEY_UP;
+	public static final int DOWN_PLAYER1 = Input.KEY_DOWN;
+	public static final int LEFT_PLAYER1 = Input.KEY_LEFT;
+	public static final int RIGHT_PLAYER1 = Input.KEY_RIGHT;
+	public static final int CURSOR_UP_PLAYER1 = Input.KEY_NUMPAD5;
+	public static final int CURSOR_DOWN_PLAYER1 = Input.KEY_NUMPAD2;
+	public static final int CURSOR_LEFT_PLAYER1 = Input.KEY_NUMPAD1;
+	public static final int CURSOR_RIGHT_PLAYER1 = Input.KEY_NUMPAD3;
+	public static final int SHOOT_PLAYER1 = Input.KEY_NUMPAD0;
+
+	public static final int UP_PLAYER2 = Input.KEY_Z;
+	public static final int DOWN_PLAYER2 = Input.KEY_S;
+	public static final int LEFT_PLAYER2 = Input.KEY_Q;
+	public static final int RIGHT_PLAYER2 = Input.KEY_D;
+	public static final int CURSOR_UP_PLAYER2 = Input.KEY_T;
+	public static final int CURSOR_DOWN_PLAYER2 = Input.KEY_G;
+	public static final int CURSOR_LEFT_PLAYER2 = Input.KEY_F;
+	public static final int CURSOR_RIGHT_PLAYER2 = Input.KEY_H;
+	public static final int SHOOT_PLAYER2 = Input.KEY_R;
+
+	public static final int UP_PLAYER3 = Input.KEY_I;
+	public static final int DOWN_PLAYER3 = Input.KEY_K;
+	public static final int LEFT_PLAYER3 = Input.KEY_J;
+	public static final int RIGHT_PLAYER3 = Input.KEY_L;
+	public static final int CURSOR_UP_PLAYER3 = 27;
+	public static final int CURSOR_DOWN_PLAYER3 = 41;
+	public static final int CURSOR_LEFT_PLAYER3 = Input.KEY_M;
+	public static final int CURSOR_RIGHT_PLAYER3 = 43;
+	public static final int SHOOT_PLAYER3 = Input.KEY_P;
+
+	public static final int UP_PLAYER4 = 199;
+	public static final int DOWN_PLAYER4 = 207;
+	public static final int LEFT_PLAYER4 = 211;
+	public static final int RIGHT_PLAYER4 = 209;
+	public static final int CURSOR_UP_PLAYER4 = 181;
+	public static final int CURSOR_DOWN_PLAYER4 = 72;
+	public static final int CURSOR_LEFT_PLAYER4 = 71;
+	public static final int CURSOR_RIGHT_PLAYER4 = 73;
+	public static final int SHOOT_PLAYER4 = Input.KEY_INSERT;
+
+	// local 
+	public int up_local;
+	public int down_local;
+	public int left_local;
+	public int right_local;
+	public int cursor_up_local;
+	public int cursor_down_local;
+	public int cursor_left_local;
+	public int cursor_right_local;
+	public int shoot_local;
+
+	public HashMap<Integer,Integer> playerToGenericKey;
+	private Player player;
+	private ArrayList<Player> characters;
+	private Input input;
+
+
+
+	public PlayerController(Player player, ArrayList<Player> chars) {
+		this.player = player;
+		this.characters = chars;
+		playerToGenericKey = new HashMap<Integer, Integer>();
+		setCommands();
+	}
+	public void setCommands(){
+		switch(player.getNumPlayer()){
+		case 1:
+
+			up_local = UP_PLAYER1;
+			left_local = LEFT_PLAYER1;
+			down_local = DOWN_PLAYER1;
+			right_local = RIGHT_PLAYER1;
+			cursor_up_local = CURSOR_UP_PLAYER1;
+			cursor_down_local = CURSOR_DOWN_PLAYER1;
+			cursor_right_local = CURSOR_RIGHT_PLAYER1;
+			cursor_left_local = CURSOR_LEFT_PLAYER1;
+			shoot_local = SHOOT_PLAYER1;
+			break;
+		case 2:
+			up_local = UP_PLAYER2;
+			left_local = LEFT_PLAYER2;
+			down_local = DOWN_PLAYER2;
+			right_local = RIGHT_PLAYER2;
+			cursor_up_local = CURSOR_UP_PLAYER2;
+			cursor_down_local = CURSOR_DOWN_PLAYER2;
+			cursor_right_local = CURSOR_RIGHT_PLAYER2;
+			cursor_left_local = CURSOR_LEFT_PLAYER2;
+			shoot_local = SHOOT_PLAYER2;
+			break;
+		case 3:
+			up_local = UP_PLAYER3;
+			left_local = LEFT_PLAYER3;
+			down_local = DOWN_PLAYER3;
+			right_local = RIGHT_PLAYER3;
+			cursor_up_local = CURSOR_UP_PLAYER3;
+			cursor_down_local = CURSOR_DOWN_PLAYER3;
+			cursor_right_local = CURSOR_RIGHT_PLAYER3;
+			cursor_left_local = CURSOR_LEFT_PLAYER3;
+			shoot_local = SHOOT_PLAYER3;
+			break;
+		case 4:
+			up_local = UP_PLAYER4;
+			left_local = LEFT_PLAYER4;
+			down_local = DOWN_PLAYER4;
+			right_local = RIGHT_PLAYER4;
+			cursor_up_local = CURSOR_UP_PLAYER4;
+			cursor_down_local = CURSOR_DOWN_PLAYER4;
+			cursor_right_local = CURSOR_RIGHT_PLAYER4;
+			cursor_left_local = CURSOR_LEFT_PLAYER4;
+			shoot_local = SHOOT_PLAYER4;
+			break;
+			
+		}
+		playerToGenericKey.put(up_local, UP_DANCE);
+		playerToGenericKey.put(down_local, DOWN_DANCE);
+		playerToGenericKey.put(left_local, LEFT_DANCE);
+		playerToGenericKey.put(right_local, RIGHT_DANCE);
+	}
+	public void update() {
+		if (input.getControllerCount() > 0) {
+			//player.setDx(input.getAxisValue(0, 1));
+			//player.setDy(input.getAxisValue(0, 2));
+		}
+	}
+
+	@Override
+	public void setInput(Input input) {
+		this.input = input;
+	}
+
+	@Override
+	public boolean isAcceptingInput() {
+		return true;
+	}
+
+	@Override
+	public void inputEnded() {
+
+	}
+
+	@Override
+	public void inputStarted() {
+
+	}
+
+	@Override
+	public void keyPressed(int key, char c) {
+		//if(player.getNumPlayer()==1)
+		//this.player.logKey(key);
+		if(player.isDancing()){
+			if(key == up_local || key == down_local || key == right_local || key == left_local)
+				player.addKeyPress(playerToGenericKey.get(key));
+			if(key == up_local){
+				this.player.setDx(0.0f);
+				this.player.setDy(-0.0001f);
+			}else if(key == down_local){
+				this.player.setDx(0.0f);
+				this.player.setDy(0.0001f);
+			}else if(key == right_local){
+				this.player.setDy(0.0f);
+				this.player.setDx(0.0001f);
+			}else if(key == left_local){
+				this.player.setDy(0.0f);
+				this.player.setDx(-0.0001f);//return;
+			}
+		}else{
+			if(key == up_local)
+	    		this.player.setDy(-0.3f);
+	    	else if(key == down_local)
+	    		this.player.setDy(0.3f);
+	    	else if(key == right_local)
+	    		this.player.setDx(0.3f);
+	    	else if(key == left_local)
+	    		this.player.setDx(-0.3f);
+		}
+	}
+
+
+	@Override
+	public void keyReleased(int key, char c) {
+		if(!player.isDancing()){
+			if(key == up_local)
+	    		this.player.setDy(0);
+	    	else if(key == down_local)
+	    		this.player.setDy(0);
+	    	else if(key == right_local)
+	    		this.player.setDx(0);
+	    	else if(key == left_local)
+	    		this.player.setDx(0);
+		}
+	}
+
+
+	@Override
+	public void mouseClicked(int button, int x, int y, int clickcount) {
+		System.out.println(x+"-"+y);
+	}
+
+	@Override
+	public void mouseDragged(int arg0, int arg1, int arg2, int arg3) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseMoved(int arg0, int arg1, int arg2, int arg3) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(int arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(int arg0, int arg1, int arg2) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseWheelMoved(int arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	public void reset() {
+		// TODO Auto-generated method stub
+
+	}
+	public Player getPlayer() {
+		return player;
+	}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+
+}

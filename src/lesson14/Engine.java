@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.ResourceLoader;
 
 import Dance1.Dance1;
+import Dance2.Dance2;
 import FogWar1.FogWar1;
 import Run1.Run1;
 import Run2.Run2;
@@ -24,6 +25,7 @@ public class Engine extends StateBasedGame{
 	public static final Dimension WINDOW_SIZE = new Dimension(1248,864);
 	public static String INSTALL_FOLDER;
 	public static Audio SHOT_SOUND;
+	public static Audio EXPLOSION_SOUND;
 	public Engine()  {
 		super("ASY");
 	}
@@ -52,12 +54,21 @@ public class Engine extends StateBasedGame{
 		this.addState(new Run3(4));
 		this.addState(new FogWar1(4));
 		this.addState(new Dance1(5));
+		this.addState(new Dance2(2));
 	}
 
 	private void initSounds() {
 		if(SHOT_SOUND==null)
 			try {
 				SHOT_SOUND = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sound/tir.ogg"));
+				//m = new Music("sound/tir.ogg");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		if(EXPLOSION_SOUND==null)
+			try {
+				EXPLOSION_SOUND = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sound/explosion-sourde.ogg"));
 				//m = new Music("sound/tir.ogg");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -9,4 +9,5 @@ public class States {
 	public static final int GAME_RUN3 = 3;
 	public static final int GAME_FOGWAR1 = 4;
 	public static final int GAME_DANCE1 = 5;
+	public static final int GAME_DANCE2 = 6;
 }

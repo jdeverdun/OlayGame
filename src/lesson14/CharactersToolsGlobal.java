@@ -19,10 +19,12 @@ public class CharactersToolsGlobal {
 	public static ArrayList<Animation[]> CHARACTER_ANIMATIONS_LIST = null;
 	public static ArrayList<Animation> CLOUD_ANIMATIONS_LIST = null;
 	private static ArrayList<Animation[]> ARROW_ANIMATIONS_LIST = null;
-	
+	public static Animation EXPLOSION_ANIM = null;
+
 	public static ArrayList<Animation[]> getCharAnimations(){
 		if(CHARACTER_ANIMATIONS_LIST!=null)
 			return CHARACTER_ANIMATIONS_LIST;
+		EXPLOSION_ANIM = loadExplosionAnim("sprites/explosion.png",256,128);
 		ArrayList<Animation[]> listanim = new ArrayList<Animation[]>();
 		try{
 			Animation[] animations = new Animation[8];
@@ -129,6 +131,8 @@ public class CharactersToolsGlobal {
 		return listanim;
 	}
 
+
+
 	public static ArrayList<Animation> getCloudAnimations(){
 		if(CLOUD_ANIMATIONS_LIST!=null)
 			return CLOUD_ANIMATIONS_LIST;
@@ -149,7 +153,7 @@ public class CharactersToolsGlobal {
 		}
 		return listanim;
 	}
-	
+
 	public static ArrayList<Animation[]> getArrowAnimations(){
 		if(ARROW_ANIMATIONS_LIST!=null)
 			return ARROW_ANIMATIONS_LIST;
@@ -215,7 +219,7 @@ public class CharactersToolsGlobal {
 		}
 		return listanim;
 	}
-	
+
 	public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y) {
 		Animation animation = new Animation();
 		if(startX<endX)
@@ -228,67 +232,83 @@ public class CharactersToolsGlobal {
 			}
 		return animation;
 	}
-	 public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y, int duration) {
-	        Animation animation = new Animation();
-	        if(startX<endX)
-				for (int x = startX; x < endX; x++) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-			else
-				for (int x = startX; x > endX; x--) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-	        return animation;
-	    }
-	 public static Animation loadAnimationLoop(SpriteSheet spriteSheet, int startX, int endX, int y, int duration) {
-	        Animation animation = new Animation();
-	        if(startX<endX){
-				for (int x = startX; x < endX; x++) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-				for (int x = endX-1; x > startX; x--) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-	        }else{
-				for (int x = startX; x > endX; x--) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-				for (int x = endX+1; x < startX; x++) {
-					animation.addFrame(spriteSheet.getSprite(x, y), duration);
-				}
-	        }
-	        return animation;
-	    }
-	 public static Animation loadAnimationY(SpriteSheet spriteSheet, int x, int startY, int endY, int duration) {
-	        Animation animation = new Animation();
-	        if(startY<endY)
-		        for (int y = startY; y < endY; y++) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-	        else
-	        	for (int y = startY; y > endY; y--) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-	        return animation;
-	    }
-	 public static Animation loadAnimationYLoop(SpriteSheet spriteSheet, int x, int startY, int endY, int duration) {
-	        Animation animation = new Animation();
-	        if(startY<endY){
-		        for (int y = startY; y < endY; y++) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-		        for (int y = endY-1; y > startY; y--) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-	        }else{
-	        	for (int y = startY; y > endY; y--) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-	        	for (int y = endY+1; y < startY; y++) {
-		            animation.addFrame(spriteSheet.getSprite(x, y), duration);
-		        }
-	        }
-	        return animation;
-	    }
+	public static Animation loadAnimation(SpriteSheet spriteSheet, int startX, int endX, int y, int duration) {
+		Animation animation = new Animation();
+		if(startX<endX)
+			for (int x = startX; x < endX; x++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		else
+			for (int x = startX; x > endX; x--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		return animation;
+	}
+	public static Animation loadAnimationLoop(SpriteSheet spriteSheet, int startX, int endX, int y, int duration) {
+		Animation animation = new Animation();
+		if(startX<endX){
+			for (int x = startX; x < endX; x++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+			for (int x = endX-1; x > startX; x--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		}else{
+			for (int x = startX; x > endX; x--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+			for (int x = endX+1; x < startX; x++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		}
+		return animation;
+	}
+	public static Animation loadAnimationY(SpriteSheet spriteSheet, int x, int startY, int endY, int duration) {
+		Animation animation = new Animation();
+		if(startY<endY)
+			for (int y = startY; y < endY; y++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		else
+			for (int y = startY; y > endY; y--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		return animation;
+	}
+	public static Animation loadAnimationYLoop(SpriteSheet spriteSheet, int x, int startY, int endY, int duration) {
+		Animation animation = new Animation();
+		if(startY<endY){
+			for (int y = startY; y < endY; y++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+			for (int y = endY-1; y > startY; y--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		}else{
+			for (int y = startY; y > endY; y--) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+			for (int y = endY+1; y < startY; y++) {
+				animation.addFrame(spriteSheet.getSprite(x, y), duration);
+			}
+		}
+		return animation;
+	}
+	private static Animation loadExplosionAnim(String string, int i, int j) {
+		SpriteSheet spriteSheet;
+		try {
+			spriteSheet = new SpriteSheet(string, i, j);
 
+			Animation animation = new Animation();
+			for (int y = 0; y < 4; y++) {
+				for(int x = 0; x < 3; x++)
+				animation.addFrame(spriteSheet.getSprite(x, y), 100);
+			}
+			return animation;
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

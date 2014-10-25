@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a- C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- !y-
  */
-package Dance1;
+package Dance2;
 
 import java.awt.Menu;
 import java.io.File;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
-
 
 import lesson14.Engine;
 import lesson14.States;
@@ -30,10 +29,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Dance1.Arrow.Direction;
-import Dance1.Camera;
-import Dance1.CharactersTools;
-import Dance1.Player.BotStatus;
+import Dance2.Arrow.Direction;
+import Dance2.Camera;
+import Dance2.CharactersTools;
+import Dance2.Player.BotStatus;
 
 
 /** DANCE
@@ -44,7 +43,7 @@ import Dance1.Player.BotStatus;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class Dance1 extends BasicGameState {
+public class Dance2 extends BasicGameState {
 
 	private int numberOfChar = 30;
 	private int numberOfClouds = 6;
@@ -61,9 +60,9 @@ public class Dance1 extends BasicGameState {
 	private Hud hud = new Hud();
 	private int startTimer = 180;
 	private int stopTimer = -1;
-	private GameMode currentGameMode = GameMode.Dance1;
+	private GameMode currentGameMode = GameMode.Dance2;
 	public static int numPlayers;
-	public enum GameMode{Run1,Run2, Dance1};
+	public enum GameMode{Run1,Run2, Dance2};
 	public static Music background;
 	public static File currentMusic;
 
@@ -76,11 +75,11 @@ public class Dance1 extends BasicGameState {
 	private int danceDuration = (int) baseDanceDuration;
 	private int tic = 0;
 	private LinkedList<Float[]> steps;
+	private LinkedList<Float[]> originalSteps;
 	private float offset = 8.539f;
-	private Player shooter;
-	public Dance1(int numPlayers) {
+	public Dance2(int numPlayers) {
 		this.numPlayers = numPlayers;
-
+		numberOfChar = numPlayers;
 		
 	}
 
@@ -116,18 +115,18 @@ public class Dance1 extends BasicGameState {
 		// players
 		triggers = new ArrayList<TriggerController>();
 		controller = new ArrayList<PlayerController>();
-		for(int i = 0; i<n-1; i++){
+		for(int i = 0; i<n; i++){
 			characters.get(i).setPlayer(true);
 			characters.get(i).setNumPlayer(i+1);
+			characters.get(i).setBaseMode(this);
 			controller.add(new PlayerController(characters.get(i),characters));
 			triggers.add(new TriggerController(map, characters.get(i)));
 		}
 		// last player
-		shooter = new Player(map,true);
-		controller.add(new PlayerController(shooter,characters));
 		camera = new Camera(characters.get(0));
 		try {
 			steps = CharactersTools.parseDanceFileSoundRef(Engine.INSTALL_FOLDER + "/src/danceTrack"+File.separator+currentMusic.getName().substring(0,currentMusic.getName().length()-4)+".txt");
+			originalSteps = (LinkedList<Float[]>) steps.clone();
 			//steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"butterfly.txt");
 			//steps = CharactersTools.parseDanceFileSoundRef("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream-off.txt");
 			//steps = CharactersTools.parseDanceFile("C:/Users/Analyse/git/OlayGame/src/danceTrack"+File.separator+"Day-dream.txt");
@@ -136,6 +135,8 @@ public class Dance1 extends BasicGameState {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		map.setMapStep(0);
+		
 		startTimer = 180;
 		stopTimer = -1;
 		danceDuration = (int) baseDanceDuration;
@@ -171,13 +172,6 @@ public class Dance1 extends BasicGameState {
 					stopTimer = 360;
 			}
 
-		}
-        g.drawString("Shoot : "+shooter.getAvailableShot(), 20, (float) (Engine.WINDOW_SIZE.getHeight()-50));
-		if(shooter.isWinner()){
-			hasWinner = true;
-			winnerWord += "Shooter winner ! ";
-			if(stopTimer==-1)
-				stopTimer = 360;
 		}
 		if(hasWinner)
 			g.drawString(winnerWord,600,400);
@@ -223,7 +217,7 @@ public class Dance1 extends BasicGameState {
 		//mode highlight
 		if(stopTimer==360){
 			for(Player player:characters){
-				if(player.getStatus() != BotStatus.Dead && player.isPlayer() && !player.isShooter()){
+				if(player.getStatus() != BotStatus.Dead && player.isPlayer()){
 					player.setHighlight(true);
 				}
 
@@ -248,7 +242,6 @@ public class Dance1 extends BasicGameState {
 
 	@Override
 	public void enter(GameContainer container,StateBasedGame s) throws SlickException{
-		container.setMouseCursor("sprites/cursor/crosshair.png", 32,32);
 		File[] listm = new File(Engine.INSTALL_FOLDER + File.separator + "src" + File.separator + "sound" + File.separator + "dance").listFiles();
 		Random r = new Random();
 		currentMusic = listm[r.nextInt(listm.length)];
@@ -262,10 +255,8 @@ public class Dance1 extends BasicGameState {
 		this.hud.init();
 		for(PlayerController contr:controller){
 			contr.setInput(container.getInput());
-			if(!contr.getPlayer().isShooter())
-				container.getInput().addKeyListener(contr);
-			else
-				container.getInput().addMouseListener(contr);
+			container.getInput().addKeyListener(contr);
+			container.getInput().addMouseListener(contr);
 		}
 	//	if(background==null)
 			
@@ -285,8 +276,6 @@ public class Dance1 extends BasicGameState {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame s, int delta) throws SlickException {
-		if(shooter.getStatus() == BotStatus.Dead)
-			container.setDefaultMouseCursor();
 		/*for(int i = 0 ; i < numPlayers-1;i++){
     		if(characters.get(i).getStatus() != BotStatus.Dead && characters.get(numPlayers-1).getAvailableShot()<=0){
     			characters.get(i).setIsWinner(true);
@@ -294,30 +283,26 @@ public class Dance1 extends BasicGameState {
     	}
     	if(!background.playing()){*/
 		boolean hasWinner = false;
-		for(int i = 0 ; i < numPlayers-1;i++){
-			if(characters.get(i).getStatus() != BotStatus.Dead && shooter.getAvailableShot()<=0){
+		/*for(int i = 0 ; i < numPlayers-1;i++){
+			if(characters.get(i).getStatus() != BotStatus.Dead){
 				characters.get(i).setIsWinner(true);
 				hasWinner = true;
 			}
-		}
+		}*/
 		boolean alldead = true;
-		for(int i = 0 ; i < numPlayers-1;i++){
+		for(int i = 0 ; i < numPlayers;i++){
 			if(characters.get(i).getStatus() != BotStatus.Dead)
 				alldead = false;
 		}
-		if(!hasWinner && alldead)
-			shooter.setIsWinner(true);
-		//}
+
 		if(!background.playing()){
 			hasWinner = false;
-			for(int i = 0 ; i < numPlayers-1;i++){
-				if(characters.get(i).getStatus() != BotStatus.Dead && shooter.getAvailableShot()<=0){
+			for(int i = 0 ; i < numPlayers;i++){
+				if(characters.get(i).getStatus() != BotStatus.Dead){
 					characters.get(i).setIsWinner(true); 
 					hasWinner = true;
 				}
 			}
-			if(!hasWinner)
-				shooter.setIsWinner(true);
 		}
 		if(timerToDance == 0 || (danceDuration > 0 && danceDuration<baseDanceDuration)){
 			dance = true;
@@ -334,7 +319,6 @@ public class Dance1 extends BasicGameState {
 		}
 
 		if(container.getInput().isKeyPressed(Input.KEY_ESCAPE)){
-			container.setDefaultMouseCursor();
 			background.stop();
 			s.enterState(States.MENU);
 
@@ -352,6 +336,27 @@ public class Dance1 extends BasicGameState {
 		}
 		for(TriggerController tri:triggers)
 			tri.update();
+		boolean nextStep = true;
+		for(int i = 0 ; i < numPlayers;i++){
+			if(!characters.get(i).isReadyForNextStep()){
+				nextStep = false;
+				break;
+			}
+		}
+		if(nextStep){
+			map.setMapStep(map.getMapStep()+1);
+			for(int i = 0 ; i < numPlayers;i++){
+				characters.get(i).setReadyForNextStep(false);
+				characters.get(i).setDancing(false);
+				characters.get(i).getLastPress().clear();
+			}
+		}
+		boolean stopDance = false;
+		for(int i = 0 ; i < numPlayers;i++){
+			if(!characters.get(i).isDancing()){
+				stopDance = true;break;
+			}
+		}
 		if(stopTimer == 0)
 			s.enterState(States.GAME_DANCE1);
 		if(startTimer == 0 && stopTimer == -1){
@@ -444,7 +449,7 @@ public class Dance1 extends BasicGameState {
 
 	@Override
 	public int getID(){
-		return States.GAME_DANCE1;
+		return States.GAME_DANCE2;
 	}
 
 	public int getNumPlayers() {
@@ -454,4 +459,9 @@ public class Dance1 extends BasicGameState {
 	public void setNumPlayers(int numPlayers) {
 		this.numPlayers = numPlayers;
 	}
+
+	public LinkedList<Float[]> getOriginalSteps() {
+		return originalSteps;
+	}
+
 }

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="27" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
+  <image source="tuiles/grass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="19" name="mountains" tilewidth="32" tileheight="32">
+  <image source="tuiles/mountains.png" width="384" height="288"/>
+ </tileset>
+ <tileset firstgid="127" name="watergrass" tilewidth="32" tileheight="32">
+  <image source="tuiles/watergrass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="145" name="water" tilewidth="32" tileheight="32">
+  <image source="tuiles/water.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="163" name="hole" tilewidth="32" tileheight="32">
+  <image source="tuiles/hole.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="181" name="holek" tilewidth="32" tileheight="32">
+  <image source="tuiles/holek.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="199" name="holemid" tilewidth="32" tileheight="32">
+  <image source="tuiles/holemid.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="217" name="waterfall" tilewidth="32" tileheight="32">
+  <image source="tuiles/waterfall.png" width="96" height="160"/>
+ </tileset>
+ <tileset firstgid="232" name="dirt" tilewidth="32" tileheight="32">
+  <image source="tuiles/dirt.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="250" name="grassalt" tilewidth="32" tileheight="32">
+  <image source="tuiles/grassalt.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="268" name="trunk" tilewidth="32" tileheight="32">
+  <image source="tuiles/trunk.png" width="192" height="96"/>
+ </tileset>
+ <tileset firstgid="286" name="treetop" tilewidth="32" tileheight="32">
+  <image source="tuiles/treetop.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="328" name="chests" tilewidth="32" tileheight="32">
+  <image source="tuiles/chests.png" width="64" height="96"/>
+ </tileset>
+ <tileset firstgid="334" name="bridges" tilewidth="32" tileheight="32">
+  <image source="tuiles/bridges.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="376" name="logic" tilewidth="32" tileheight="32">
+  <image source="tuiles/logic.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="401" name="terrain1" tilewidth="32" tileheight="32">
+  <image source="tuiles/base_out_atlas.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="1425" name="terrain2" tilewidth="32" tileheight="32">
+  <image source="tuiles/terrain_atlas.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="2449" name="race" tilewidth="32" tileheight="32">
+  <image source="tuiles/race.png" width="1982" height="2064"/>
+ </tileset>
+ <layer name="background" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3UOQ7AIAxEUYciBV24/yk5AQVN5ALGwgRQpvidJZ7YYhCJjDHGGFgSfPYy5GF7DLYVPmsrfDuf7+j+tWboO9OXpUbfWT703+j67pq3772utuia72OyDwnx6b463+7/Msnndo839/21AvYLPODgEAAA
+  </data>
+ </layer>
+ <layer name="Calque 2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgQAAeRgYGXiDmY6QPey8TA8M+AhgZCAH1CAOxCCPt2SBAqvskgPokgViKkfZsctxHbzDqvlH3jbpv1H2rgOWVFhNhvJpxYNzHTaQ6ThLjYyS67yUwDl9hwa8ZB4f7cLkBpGbUfaPuo7b7QO1ckN18jIPTfTC7YYDe7iOmXtAmxn1sQDk26ruPVDCU3acJxFpomFL3YasL8OHTONoA3CSGHbHuoxY4xQp0PxY8WNxHDhjs7rsLtP8eAQwA/CX5pOAQAAA=
+  </data>
+ </layer>
+ <layer name="Calque 5" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQoAIAwEwct/jf8v7e1FCDOw/SYAAMAUq5K+2vX7CuC9A+8xJB7gEAAA
+  </data>
+ </layer>
+ <layer name="avant plan" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3XwQ0AEBREwa8gNIb+j9wk7hxkJnnJtrARW04RZVXT/Q0AAMBf2vp6/Wj4fzwyAVCtSObgEAAA
+  </data>
+ </layer>
+ <layer name="cime" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OoQ0AQAjAQIJk/4FfvkcA4i6pb8RXOVfH9T8AAABgxwNmrLPb4BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3QQQ0AIAwAsQV+oBQpWEMVDviyLK2Cy0UAAADVrfa74G303wVvJ/m/mfzfTv6PGi6WOj484BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBQE0U1+qXRCKXRCX/Yq7jjMS+Y+EgAAALBLIWXXXI/XN6fip+qGmx/+AQDuWzTiiFfgEAAA
+  </data>
+ </layer>
+ <layer name="obstacle3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQkAAAgAMC/7Y2IbeCrClmARALCr8now8wMA+KcBu7ekZ+AQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsREAEAAEsO8MwibsPxO1Oy2KZIIkAADAbbUkrbxenPV1Gx//AHYTJYZ/WuAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle5" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQ0AAAQAMJOnPe8DK4n2gkYAAADwXeX2YHb9x74GqKICHOAQAAA=
+  </data>
+ </layer>
+ <layer name="logic" width="40" height="27" opacity="0.55">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3VywqAIBBG4fHBK6mgy1OHi6DF/DEgocH5YNYeFdQMAIBvzMlsCMyS2vTl4LoTfa5nX7nr0Zlytz30qYZMn0RfHfq0NfAv7A37om/v7c99m3P2tQ7xH6g5X/p6pvaJti649LeZ4BAAAA==
+  </data>
+ </layer>
+ <objectgroup name="trigger" width="144" height="883">
+  <object name="win-zone" type="win-game" x="1120" y="1" width="144" height="883"/>
+  <object name="trigger1" type="trigger1" x="138" y="635" width="49" height="126"/>
+  <object name="trigger2" type="trigger2" x="289" y="574" width="123" height="41"/>
+  <object name="trigger3" type="trigger3" x="432" y="319" width="43" height="143"/>
+  <object name="trigger4" type="trigger4" x="575" y="542" width="67" height="38"/>
+  <object name="trigger5" type="trigger5" x="696" y="709" width="37" height="79"/>
+ </objectgroup>
+</map>
