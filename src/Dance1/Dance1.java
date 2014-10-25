@@ -46,7 +46,7 @@ import Dance1.Player.BotStatus;
  */
 public class Dance1 extends BasicGameState {
 
-	private int numberOfChar = 40;
+	private int numberOfChar = 30;
 	private int numberOfClouds = 6;
 	private GameContainer container;
 	private Map map = new Map();
@@ -400,7 +400,7 @@ public class Dance1 extends BasicGameState {
 		for(Arrow arr : movingArrows){
 			if(arr.isDisable())
 				continue;
-			if( (arr.getMusicTicTime()-(position))<0.03f){// && (arr.getMusicTicTime()-(position))>0){
+			if( (arr.getMusicTicTime()-0.03f-(position))<0.03f){// && (arr.getMusicTicTime()-(position))>0){
 				for(Player player:characters){
 					if(!player.isPlayer())
 						player.move(arr.getOrientation());
