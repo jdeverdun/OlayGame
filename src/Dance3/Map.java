@@ -1,4 +1,6 @@
-package Dance2;
+package Dance3;
+
+import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -13,14 +15,27 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class Map {
     private TiledMap tiledMap;
-    private int mapStep = 0;
+    private ArrayList<Integer> mapStep;
+    private ArrayList<Boolean> stepOpt;
     private int currentMap = -1;
+	private ArrayList<Boolean> facultativeWall;
     public void init() throws SlickException {
-		this.tiledMap = new TiledMap("map/dancefloor_move_map.tmx");
+		this.tiledMap = new TiledMap("map/dancefloor_move_alone_map.tmx");
 		currentMap = 0;
-		mapStep = 0; 
+		resetMapStep();
     }
 
+    public void resetMapStep(){
+    	mapStep = new ArrayList<Integer>(4);
+    	for(int i = 0;i<4;i++)
+    		mapStep.add(0);
+    	stepOpt = new ArrayList<Boolean>(4);
+    	for(int i = 0;i<4;i++)
+    		stepOpt.add(true);
+    	facultativeWall = new ArrayList<Boolean>(4);
+    	for(int i = 0;i<4;i++)
+    		facultativeWall.add(false);
+    }
     public void renderBackground() {
     	switch(currentMap){
     	case 0:
@@ -41,18 +56,28 @@ public class Map {
     	case 0:
     		this.tiledMap.render(0, 0, 3);
             this.tiledMap.render(0, 0, 4);
-            if(mapStep<=5)
-            	this.tiledMap.render(0, 0, 10);
-            if(mapStep<=4)
-            	this.tiledMap.render(0, 0, 9);
-            if(mapStep<=3)
-            	this.tiledMap.render(0, 0, 8);
-            if(mapStep<=2)
-            	this.tiledMap.render(0, 0, 7);
-            if(mapStep<=1)
-            	this.tiledMap.render(0, 0, 6);
-            if(mapStep<=0)
-            	this.tiledMap.render(0, 0, 5);
+            for(int i = 0 ; i < stepOpt.size(); i++){
+            	if(stepOpt.get(i))
+            		this.tiledMap.render(0, 0, 5+i);
+            }
+            for(int i = 0 ; i < mapStep.size(); i++){
+
+            	int cmapstep = mapStep.get(i);
+            	System.out.println(cmapstep);
+                if(cmapstep<=3)
+                	this.tiledMap.render(0, 0, 21+(i));
+                if(cmapstep<=2)
+                	this.tiledMap.render(0, 0, 17+(i));
+                if(cmapstep<=1)
+                	this.tiledMap.render(0, 0, 13+(i));
+                if(cmapstep<=0)
+                	this.tiledMap.render(0, 0, 9+(i));
+            }
+            for(int i = 0 ; i < facultativeWall.size(); i++){
+            	if(facultativeWall.get(i))
+            		this.tiledMap.render(0, 0, 25+i);
+            }
+
 	        break;
     	case 1:case 2:
     		this.tiledMap.render(0, 0, 3);
@@ -109,12 +134,29 @@ public class Map {
         return this.tiledMap.getObjectProperty(0, objectID, propertyName, def);
     }
 
-	public int getMapStep() {
+	public ArrayList<Integer> getMapStep() {
 		return mapStep;
 	}
 
-	public void setMapStep(int mapStep) {
+	public void setMapStep(ArrayList<Integer> mapStep) {
 		this.mapStep = mapStep;
 	}
+
+	public ArrayList<Boolean> getStepOpt() {
+		return stepOpt;
+	}
+
+	public void setStepOpt(ArrayList<Boolean> stepOpt) {
+		this.stepOpt = stepOpt;
+	}
+
+	public ArrayList<Boolean> getFacultativeWall() {
+		return facultativeWall;
+	}
+
+	public void setFacultativeWall(ArrayList<Boolean> facultativeWall) {
+		this.facultativeWall = facultativeWall;
+	}
+
 
 }

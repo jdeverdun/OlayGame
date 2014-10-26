@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-package Dance2;
+package Dance3;
 
 
 import java.awt.Point;
@@ -20,8 +20,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import Dance2.Arrow.Direction;
-import Dance2.Player.BotStatus;
+import Dance3.Arrow.Direction;
+import Dance3.Player.BotStatus;
 
 
 /**
@@ -50,7 +50,7 @@ public class Player {
 	private boolean gauche = true;
 	public int compteur = 0;
 	private boolean highlight;
-	private Dance2 baseMode;
+	private Dance3 baseMode;
 	private boolean showExplode;
 	private long timeExplode = 0;
 	private boolean readyForNextStep =false;
@@ -321,7 +321,7 @@ public class Player {
 		
 	}
 	public void logKey(int key) {
-		System.out.println(Dance2.background.getPosition()+"@@"+key);
+		System.out.println(Dance3.background.getPosition()+"@@"+key);
 		
 	}
 	public void move(Direction key){
@@ -352,10 +352,10 @@ public class Player {
 		highlight = b;
 	}
 	public void addKeyPress(int key){
-		if(lastPress.size()>=(map.getMapStep()+3)){
+		if(lastPress.size()>=(map.getMapStep().get(getNumPlayer()-1)+3)){
 			lastPress.pop();
 		}
-		lastPress.addLast(new Float[]{Dance2.background.getPosition(),(float) key});
+		lastPress.addLast(new Float[]{Dance3.background.getPosition(),(float) key});
 	}
 	public LinkedList<Float[]> getLastPress() {
 		return lastPress;
@@ -364,7 +364,7 @@ public class Player {
 		this.lastPress = lastPress;
 	}
 	public boolean checkLastTiming() {
-		if(lastPress.size()<(map.getMapStep()+3))
+		if(lastPress.size()<(map.getMapStep().get(getNumPlayer()-1)+3))
 			return false;
 		float base = lastPress.getFirst()[0];
 		int id = -1;
@@ -388,7 +388,7 @@ public class Player {
 		}
 		return true;
 	}
-	public void setBaseMode(Dance2 dance2) {
+	public void setBaseMode(Dance3 dance2) {
 		// TODO Auto-generated method stub
 		baseMode = dance2;
 	}
@@ -401,17 +401,12 @@ public class Player {
 			//showExplode = true;
 			//baseMode.clearAllPress();
 			//lastPress.clear();
-			boolean allReady = true;
-			for(Player p:baseMode.getCharacters()){
-				if(p.getNumPlayer()!=this.getNumPlayer() && !p.isReadyForNextStep())
-					allReady = false;
-			}
-			if(allReady){
-				showExplode = true;
-				timeExplode = System.currentTimeMillis();
-				if(!Engine.EXPLOSION_SOUND.isPlaying())
-					Engine.EXPLOSION_SOUND.playAsSoundEffect(1.0f, 1.0f, false);
-			}
+			showExplode = true;
+			timeExplode = System.currentTimeMillis();
+			if(!Engine.EXPLOSION_SOUND.isPlaying())
+				Engine.EXPLOSION_SOUND.playAsSoundEffect(1.0f, 1.0f, false);
+			map.getMapStep().set(numPlayer-1,map.getMapStep().get(numPlayer-1)+1);
+			setDancing(false);
 		}
 	}
 	public void clearLastPress() {

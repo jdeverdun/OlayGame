@@ -1,4 +1,4 @@
-package Dance2;
+package Dance3;
 
 import org.newdawn.slick.SlickException;
 
@@ -22,42 +22,51 @@ public class TriggerController {
         this.player.setOnStair(false);
         for (int objectID = 0; objectID < this.map.getObjectCount(); objectID++) {
             if (isInTrigger(objectID)) {
-                if (map.getMapStep()==0 && "trigger1".equals(this.map.getObjectType(objectID))) {
+                if (map.getMapStep().get(player.getNumPlayer()-1)==0 && ("trigger1-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
                 	if(!player.isDancing()) player.setDancing(true);
                 	if(player.checkLastTiming()){
                 		//player.setDancing(false);
                 		player.setReadyForNextStep(true);
                 		
                 	}
-                } else if (map.getMapStep()==1 && "trigger2".equals(this.map.getObjectType(objectID))) {
+                } else if (map.getMapStep().get(player.getNumPlayer()-1)==1 && ("trigger2-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
+                	if(!player.isDancing()) player.setDancing(true);
+                	if(player.checkLastTiming()){
+                		//player.setDancing(false);
+                		player.setReadyForNextStep(true);
+                		map.getStepOpt().set(player.getNumPlayer()-1,false);
+                	}
+                } else if (map.getMapStep().get(player.getNumPlayer()-1)==2 && ("trigger3-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
                 	if(!player.isDancing()) player.setDancing(true);
                 	if(player.checkLastTiming()){
                 		//player.setDancing(false);
                 		player.setReadyForNextStep(true);
                 	}
-                } else if (map.getMapStep()==2 && "trigger3".equals(this.map.getObjectType(objectID))) {
+                }else if (map.getMapStep().get(player.getNumPlayer()-1)==3 && ("trigger4-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
                 	if(!player.isDancing()) player.setDancing(true);
                 	if(player.checkLastTiming()){
                 		//player.setDancing(false);
                 		player.setReadyForNextStep(true);
                 	}
-                }else if (map.getMapStep()==3 && "trigger4".equals(this.map.getObjectType(objectID))) {
+                }else if (map.getFacultativeWall().get(player.getNumPlayer()-1) && map.getMapStep().get(player.getNumPlayer()-1)==4 && ("trigger5-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
                 	if(!player.isDancing()) player.setDancing(true);
                 	if(player.checkLastTiming()){
                 		//player.setDancing(false);
                 		player.setReadyForNextStep(true);
+                		map.getFacultativeWall().set(player.getNumPlayer()-1,false);
                 	}
-                }else if (map.getMapStep()==4 && "trigger5".equals(this.map.getObjectType(objectID))) {
+                }else if (map.getStepOpt().get(player.getNumPlayer()-1) && map.getMapStep().get(player.getNumPlayer()-1)==1 && ("triggerb-"+player.getNumPlayer()).equals(this.map.getObjectType(objectID))) {
                 	if(!player.isDancing()) player.setDancing(true);
                 	if(player.checkLastTiming()){
                 		//player.setDancing(false);
+                		int num = player.getNumPlayer();
+                		if(num==Dance3.numPlayers)
+                			map.getFacultativeWall().set(0, true);
+                		else
+                			map.getFacultativeWall().set(num, true);
+                		map.getStepOpt().set(num-1, false);
                 		player.setReadyForNextStep(true);
-                	}
-                }else if (map.getMapStep()==5 && "trigger6".equals(this.map.getObjectType(objectID))) {
-                	if(!player.isDancing()) player.setDancing(true);
-                	if(player.checkLastTiming()){
-                		//player.setDancing(false);
-                		player.setReadyForNextStep(true);
+                		map.getMapStep().set(player.getNumPlayer()-1,1);
                 	}
                 }else if ("win-game".equals(this.map.getObjectType(objectID))) {
                 	winGame(objectID);

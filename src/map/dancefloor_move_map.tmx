@@ -56,22 +56,22 @@
  </tileset>
  <layer name="background" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3UOQ7AIAxEUYciBV24/yk5AQVN5ALGwgRQpvidJZ7YYhCJjDHGGFgSfPYy5GF7DLYVPmsrfDuf7+j+tWboO9OXpUbfWT703+j67pq3772utuia72OyDwnx6b463+7/Msnndo839/21AvYLPODgEAAA
+   H4sIAAAAAAAAC+3VMQ6AIAyF4eLgwKb3v4f38gQOLKRGbNNKMbzh20j4AzTkhSgDAAAI7SRfmxQ82jZFW0SfVkTfyPdrPb/Wmr/1Heluxr6TCvT17eON1rf15LVvLbz76n15C9ecj4/7JCR9nPXtaf6GiD63GRq8b1YXqv7gYuAQAAA=
   </data>
  </layer>
  <layer name="Calque 2" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC2NgQAAeRgYGXiDmY6QPey8TA8M+AhgZCAH1CAOxCCPt2SBAqvskgPokgViKkfZsctxHbzDqvlH3jbpv1H2rgOWVFhNhvJpxYNzHTaQ6ThLjYyS67yUwDl9hwa8ZB4f7cLkBpGbUfaPuo7b7QO1ckN18jIPTfTC7YYDe7iOmXtAmxn1sQDk26ruPVDCU3acJxFpomFL3YasL8OHTONoA3CSGHbHuoxY4xQp0PxY8WNxHDhjs7rsLtP8eAQwA/CX5pOAQAAA=
+   H4sIAAAAAAAAC+WXwU7CQBCGZyGQEJQDEiyc1US4IGfgrD6g+gAaEYjKBTx55KB39AlMhLt69N9Iw2C6ZShsLfgnXzpptt0vbbqzJZpmSxFtg4yyX3cmcz7G/OHJ4rodkFP26yB+Dq4rgKKyXwfxCzOb5neWIDoHFwnZ/R1QYBQt+/Xg1QcPQr89sM84sOw3hNcLeBX6VcARo2rZ7wNen+BL6FcDdUbDsl8+SbQLnKTs/sfghHFq2c8vLaxXpdh82upv/NLCcakF1qv/6veOdzjyYKyi4Wdy0GPW0e8S3DOuIuZ3C97iP7U+ul5R8tMZxGe9VuWn97x67owK5ncN2pP6BjRX7OfO7SbI9+E+ww47J/WT9IWyxA99MWXojcv4LZp19jsEpV/oNaW7hJ9XL/Dj2bAHSAv2PWE8P1OesG8cedCiKU02ftP+j8LOHc32PRPfNNThSeAQAAA=
   </data>
  </layer>
  <layer name="Calque 5" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3OMQoAIAwEwct/jf8v7e1FCDOw/SYAAMAUq5K+2vX7CuC9A+8xJB7gEAAA
+   H4sIAAAAAAAAC+3OsQ0AIAwDQYd5gYKwCOsxDZSUKVCqP8m1XwIQVU1qgXXLb9tFGvfXA5tP38pPBQAAAIDvDr4Sq1PgEAAA
   </data>
  </layer>
  <layer name="avant plan" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3XwQ0AEBREwa8gNIb+j9wk7hxkJnnJtrARW04RZVXT/Q0AAMBf2vp6/Wj4fzwyAVCtSObgEAAA
+   H4sIAAAAAAAAC+3GsQ0AIAwEsc9AhP23g44FSGdLJ13yrEr6tmv+AQAAAH45jO9DluAQAAA=
   </data>
  </layer>
  <layer name="cime" width="40" height="27">
@@ -104,17 +104,23 @@
    H4sIAAAAAAAAC+3OsQ0AAAQAMJOnPe8DK4n2gkYAAADwXeX2YHb9x74GqKICHOAQAAA=
   </data>
  </layer>
- <layer name="logic" width="40" height="27" opacity="0.55">
+ <layer name="obstacle6" width="40" height="27">
   <data encoding="base64" compression="gzip">
-   H4sIAAAAAAAAC+3VywqAIBBG4fHBK6mgy1OHi6DF/DEgocH5YNYeFdQMAIBvzMlsCMyS2vTl4LoTfa5nX7nr0Zlytz30qYZMn0RfHfq0NfAv7A37om/v7c99m3P2tQ7xH6g5X/p6pvaJti649LeZ4BAAAA==
+   H4sIAAAAAAAAC+3OIQ4AIAwEwRPQ9P8vBofF1cwk6zcBAAD4tzrZt+rpE4DnALNfl6jgEAAA
   </data>
  </layer>
- <objectgroup name="trigger" width="144" height="883">
-  <object name="win-zone" type="win-game" x="1120" y="1" width="144" height="883"/>
-  <object name="trigger1" type="trigger1" x="138" y="635" width="49" height="126"/>
-  <object name="trigger2" type="trigger2" x="289" y="574" width="123" height="41"/>
-  <object name="trigger3" type="trigger3" x="432" y="319" width="43" height="143"/>
+ <layer name="logic" width="40" height="27" visible="0" opacity="0.55">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2V0QqAIAxF54dXUkHZV4cPggxXwxhq3AN7EcSz6RwRAAAAYMPqiCZFbK6Nn1eeu8CvSO4X73ouRLzbHvwkBz+oH+8tix764sffrkWN/+wX2NrVmV++v6Z2u2IunA39tH9vYmS/46X+NX5BmAdSSO9bk2er/zuiydOid8EzN7aSbUXgEAAA
+  </data>
+ </layer>
+ <objectgroup name="trigger" width="129" height="91">
+  <object name="win-zone" type="win-game" x="782" y="501" width="129" height="91"/>
+  <object name="trigger1" type="trigger1" x="157" y="634" width="49" height="126"/>
+  <object name="trigger2" type="trigger2" x="289" y="561" width="123" height="41"/>
+  <object name="trigger3" type="trigger3" x="445" y="311" width="43" height="143"/>
   <object name="trigger4" type="trigger4" x="575" y="542" width="67" height="38"/>
   <object name="trigger5" type="trigger5" x="696" y="709" width="37" height="79"/>
+  <object name="trigger6" type="trigger6" x="800" y="631" width="101" height="35"/>
  </objectgroup>
 </map>

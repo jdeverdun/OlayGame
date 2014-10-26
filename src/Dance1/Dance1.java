@@ -78,6 +78,7 @@ public class Dance1 extends BasicGameState {
 	private LinkedList<Float[]> steps;
 	private float offset = 8.539f;
 	private Player shooter;
+	private float musicDuration;
 	public Dance1(int numPlayers) {
 		this.numPlayers = numPlayers;
 
@@ -281,6 +282,7 @@ public class Dance1 extends BasicGameState {
 			}
 		background.stop();
 		background.play();
+		musicDuration = Engine.GetMusicDurationMsecs(background);
 	}
 
 	@Override
@@ -389,6 +391,8 @@ public class Dance1 extends BasicGameState {
 
 		}
 		*/
+		
+		hud.XP_WIDTH_PERC = 1-(background.getPosition()/(musicDuration/1000.0f));
 		float position = background.getPosition();
 		if(!steps.isEmpty() && (steps.getFirst()[0]-offset) < (position))
 			steps.pop();

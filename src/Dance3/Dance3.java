@@ -4,7 +4,7 @@
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  * GCS d- s+:+ a- C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- !y-
  */
-package Dance2;
+package Dance3;
 
 import java.awt.Menu;
 import java.io.File;
@@ -29,10 +29,10 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import Dance2.Arrow.Direction;
-import Dance2.Camera;
-import Dance2.CharactersTools;
-import Dance2.Player.BotStatus;
+import Dance3.Arrow.Direction;
+import Dance3.Camera;
+import Dance3.CharactersTools;
+import Dance3.Player.BotStatus;
 
 
 /** DANCE
@@ -43,7 +43,7 @@ import Dance2.Player.BotStatus;
  * @author <b>Shionn</b>, shionn@gmail.com <i>http://shionn.org</i><br>
  *         GCS d- s+:+ a C++ UL/M P L+ E--- W++ N K- w-- M+ t+ 5 X R+ !tv b+ D+ G- e+++ h+ r- y+
  */
-public class Dance2 extends BasicGameState {
+public class Dance3 extends BasicGameState {
 
 	private int numberOfChar = 30;
 	private int numberOfClouds = 6;
@@ -60,9 +60,9 @@ public class Dance2 extends BasicGameState {
 	private Hud hud = new Hud();
 	private int startTimer = 180;
 	private int stopTimer = -1;
-	private GameMode currentGameMode = GameMode.Dance2;
+	private GameMode currentGameMode = GameMode.Dance3;
 	public static int numPlayers;
-	public enum GameMode{Run1,Run2, Dance2};
+	public enum GameMode{Run1,Run2, Dance3};
 	public static Music background;
 	public static File currentMusic;
 
@@ -78,7 +78,7 @@ public class Dance2 extends BasicGameState {
 	private LinkedList<Float[]> originalSteps;
 	private float offset = 8.539f;
 	private float musicDuration;
-	public Dance2(int numPlayers) {
+	public Dance3(int numPlayers) {
 		this.numPlayers = numPlayers;
 		numberOfChar = numPlayers;
 		
@@ -136,7 +136,7 @@ public class Dance2 extends BasicGameState {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		map.setMapStep(0);
+		map.setMapStep(new ArrayList<Integer>(4));
 		
 		startTimer = 180;
 		stopTimer = -1;
@@ -218,7 +218,7 @@ public class Dance2 extends BasicGameState {
 		//mode highlight
 		if(stopTimer==360){
 			for(Player player:characters){
-				if(player.getStatus() != BotStatus.Dead && player.isPlayer()){
+				if(player.getStatus() != BotStatus.Dead && player.isPlayer() && player.isWinner()){
 					player.setHighlight(true);
 				}
 
@@ -346,7 +346,7 @@ public class Dance2 extends BasicGameState {
 			}
 		}
 		if(nextStep){
-			map.setMapStep(map.getMapStep()+1);
+			//map.setMapStep(map.getMapStep()+1);
 			for(int i = 0 ; i < numPlayers;i++){
 				characters.get(i).setReadyForNextStep(false);
 				characters.get(i).setDancing(false);
@@ -360,7 +360,7 @@ public class Dance2 extends BasicGameState {
 		}
 		
 		if(stopTimer == 0)
-			s.enterState(States.GAME_DANCE2);
+			s.enterState(States.GAME_DANCE3);
 		if(startTimer == 0 && stopTimer == -1){
 			// HUD
 			Hud.MANA_WIDTH_PERC = ((float)danceIntTime/60.0f);
@@ -435,7 +435,7 @@ public class Dance2 extends BasicGameState {
 
 	@Override
 	public int getID(){
-		return States.GAME_DANCE2;
+		return States.GAME_DANCE3;
 	}
 
 	public int getNumPlayers() {

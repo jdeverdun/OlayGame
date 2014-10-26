@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="27" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
+  <image source="tuiles/grass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="19" name="mountains" tilewidth="32" tileheight="32">
+  <image source="tuiles/mountains.png" width="384" height="288"/>
+ </tileset>
+ <tileset firstgid="127" name="watergrass" tilewidth="32" tileheight="32">
+  <image source="tuiles/watergrass.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="145" name="water" tilewidth="32" tileheight="32">
+  <image source="tuiles/water.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="163" name="hole" tilewidth="32" tileheight="32">
+  <image source="tuiles/hole.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="181" name="holek" tilewidth="32" tileheight="32">
+  <image source="tuiles/holek.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="199" name="holemid" tilewidth="32" tileheight="32">
+  <image source="tuiles/holemid.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="217" name="waterfall" tilewidth="32" tileheight="32">
+  <image source="tuiles/waterfall.png" width="96" height="160"/>
+ </tileset>
+ <tileset firstgid="232" name="dirt" tilewidth="32" tileheight="32">
+  <image source="tuiles/dirt.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="250" name="grassalt" tilewidth="32" tileheight="32">
+  <image source="tuiles/grassalt.png" width="96" height="192"/>
+ </tileset>
+ <tileset firstgid="268" name="trunk" tilewidth="32" tileheight="32">
+  <image source="tuiles/trunk.png" width="192" height="96"/>
+ </tileset>
+ <tileset firstgid="286" name="treetop" tilewidth="32" tileheight="32">
+  <image source="tuiles/treetop.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="328" name="chests" tilewidth="32" tileheight="32">
+  <image source="tuiles/chests.png" width="64" height="96"/>
+ </tileset>
+ <tileset firstgid="334" name="bridges" tilewidth="32" tileheight="32">
+  <image source="tuiles/bridges.png" width="192" height="224"/>
+ </tileset>
+ <tileset firstgid="376" name="logic" tilewidth="32" tileheight="32">
+  <image source="tuiles/logic.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="401" name="terrain1" tilewidth="32" tileheight="32">
+  <image source="tuiles/base_out_atlas.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="1425" name="terrain2" tilewidth="32" tileheight="32">
+  <image source="tuiles/terrain_atlas.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="2449" name="race" tilewidth="32" tileheight="32">
+  <image source="tuiles/race.png" width="1982" height="2064"/>
+ </tileset>
+ <layer name="background" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+NiYmDgQsKdDPTB3Ayo9hKLB5v7ehhoi2Fu4SbTfdwM9MPD0X1tDLTFlMYvvfIDufmDkDmgMOgYxO5rBOJmIO4eIPehlweNUBoUbu1QdjMD/csXIQbs+bcbyexeBurlXVLcJ4gkN1q+UBa/Q718GWj3oee3nWyDu30gzj648ge6GeaDzH2DNf8OVP5AjrfB2D6gtvuo0T7gpsB99G4fkOo+ercPKHUfrdsHpLqP1uULchigh8tgKF8ojTcAonSptOAQAAA=
+  </data>
+ </layer>
+ <layer name="Calque 2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2WQQ6CMBBFRxcQF+p1vIkcpwYVULkDsjbRpW48h97EpdPYhgEFShkSTPjJTwop5VGGz3guQASZ2yo1mLNDn9T4Pq42ZUsY+IoS6IPyyoKva8VkHPaQTwpLCCY95pui5z3lC8iYi09AVtPF2m4qH71VXlvyHQtryus3ZN2APHuZimv8ks6etvsnr9/DZ9/0sZTcw8SAg0oAf774ZByq40AxN1XX+aL3Ma6bWKEhX+zVRb5U6eoALPCF3Ryz+Rz5omXSezyQ64V+GvIJGPqDthq+X4DZyI7t3/qDiIHPtD9YYmF57vf5shxIGfn0f82HfH/QVALy74CDr8v+gIOPirs/4ObjEM2XvvHJutDR1JYvsbh/XV9fli9n9MXAb4W/c9XgEAAA
+  </data>
+ </layer>
+ <layer name="Calque 5" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgwAQ72BgYLNhR8U42LApJBBHslJsBApJAc1gYGRi+A930A4h/ArE5ldxIKWgE4htobkLmDzToAOLZDAg3iQPdJMEOCdPBALoZEGnOkh0SZjD2KKAfAJUBgyE/4QKg9HtzELtvFIyC4Qpo1T6gFhjM7QMQGMztAxAYzO0DEBhtHxAPRutx2oLGgXbAKBgFQwiE07mcBgAOsyTD4BAAAA==
+  </data>
+ </layer>
+ <layer name="avant plan" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ43oAAAAAC+DYoNX5/gEAAA
+  </data>
+ </layer>
+ <layer name="cime" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3BAQ0AAADCoPdPbQ43oAAAAAC+DYoNX5/gEAAA
+  </data>
+ </layer>
+ <layer name="obstacleb_1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OoREAAAgEoE/uf05st5ksMAEJAAAAF13fA2AbousvB+AQAAA=
+  </data>
+ </layer>
+ <layer name="obstacleb_2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OQQkAAAgEsHvZHxPbQkG2BEsAAH7quh4AAFsGChz8ueAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacleb_3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMREAAAgEoJ/sfya2gY4ukIAEgE3X9wAAALgMOdCgN+AQAAA=
+  </data>
+ </layer>
+ <layer name="obstacleb_4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OQQkAAAgEsHvZHxMb40C2BEt+2GkPAAAAgJYDf0Pv6eAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle1-1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQkAMAgAMDff9vR+UBAEHZILEgEAAADzKrcHf9d/9Dxq9yg34BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle1-2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQ0AAAQAMJu3ne4DK4n2gkYAAPBZ5fZgdv0HwA0NX7e4n+AQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle1-3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQEAAAQAMJ/aomvgcXBsCRYBAHuV14PZ9x8AADsN7eOMK+AQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle1-4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQ0AAAQAMJu3ne4DK4n2gkbwSeX2YHb9BwAAwE0N1Q/yReAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle2-1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsREAEBAAsK8YhE3YyvIsoFBxLpkgEQAAAPyo5Iiaby/22rr1h38j3R5wYgJaTXYW4BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle2-2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQEAEAwAsE4cwid85XkeMLdDckEiAADINHrE7NmLv/Vuu/DvtOwBABVcroxM9uAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle2-3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsREAEBAAsK8YhE3YyvIsoFJwLpkgEQD8oOSImm8v9tq69Yd/I90eAABwYgI0uA+t4BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle2-4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQEAEBAAwJ8IQhNaKU8BqzfcJbgIXmo1otfsxd04t/nxb5XsAQAAAD/aUqBGVuAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle3-1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQ0AIAwAsCUzjhhwAr7AADdLaBU0AgAAgF/0jBj5enE3z20V/rXCt99tqcLByeAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle3-2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQ0AIAwAsCUzjhhwAr7AACdhR6ugEQAAVNMzYuTvxd08t1X41wrfAHhjA21nNtXgEAAA
+  </data>
+ </layer>
+ <layer name="obstacle3-3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OsQ0AEBAAwE9+ccOwCXvRKtRE7ia4CAB+VTOi5e3FWV+38fCvPHwDAGA3ARryx6rgEAAA
+  </data>
+ </layer>
+ <layer name="obstacle3-4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OMQ0AIAwAsCUzjhhwAr7AAC/jaBU0gmo9I0ZWL+7mua2Pf+3jGwAAAG9sM9O3TOAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle4-1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OWwkAIBBFwbuGEJOLScQkYhy3gD+Cj48zCUYCAAAAAJySTSr2erFW/db4bet+Gx//YpBSeL24YwJPRKM64BAAAA==
+  </data>
+ </layer>
+ <layer name="obstacle4-2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBBFwb+KEJWLSkQlohzbgIvLkrypYCQAAABUk5pFL8663wa/a9Nv6+FfTlJJ0QsA+NsGjt77buAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacle4-3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OQQkAIBBFwb+GEJOLScQkYhy3gBcR1sObBCMBAF6pJjWLXpx1vw1+16bf1se/nKSSohcAAAAxNnRLQwXgEAAA
+  </data>
+ </layer>
+ <layer name="obstacle4-4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBBFwW+LEJWLSkQlohzbgIsL4U0FI/0nB6mE04u16rfGb1v327j4F01KdnoBAAAAAG+ZM2/xcOAQAAA=
+  </data>
+ </layer>
+ <layer name="obstacleo_1" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OQQkAIBBFwb+GEJOLScQkYhy3gBdh0cObBCMBAAAAAKJVk5q9Xpx1vw1+16bf1se/nKSSXi9ibeQu4G7gEAAA
+  </data>
+ </layer>
+ <layer name="obstacleo_2" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBBFwW+LEJWLSkQlohx7cXRxQfKmgpEAAACw5CCVcHuxV/3W+B3rfhsP/6JJyW4vAOBPE0EhUNTgEAAA
+  </data>
+ </layer>
+ <layer name="obstacleo_3" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBBFwb+KEJWLSkQlohzbgIsIDm8qGAkAcFo2qdjrxVr1W+O3rfttfPyLQUrh9QIAAOCuCStTEcDgEAAA
+  </data>
+ </layer>
+ <layer name="obstacleo_4" width="40" height="27">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3OwQ0AEBBFwW+LEJWLSkQlohzbgIsL4U0FI/0rB6mE04u16rfGb1v327j4F01KdnoBAAAAAG+YKNWf5OAQAAA=
+  </data>
+ </layer>
+ <layer name="logic" width="40" height="27" visible="0" opacity="0.55">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+1WiwqAMAhcH16NHqz+ugYTxAalWRl4IGOwjZt6hyEcMTQhtCTmpnLwI8TCJfPs9hj3SGXlAv9Vcn8iecJcYF3Rnub1LBbEqRfwi+QOvAHcYE/PSaDBL5G/p0oe3uTHrRc3cM9J+NVQ06+ktzNoPTSQaw7aBf1q/V0DEfVd5gZ7K/6ykrxZ8hdr+tXwtatwf+HjKX8Bnn+YD/D6tX59PuDB9evzgfX5wJK/WNOvzwf3+D2Nu/6yAdDjNWrgEAAA
+  </data>
+ </layer>
+ <objectgroup name="trigger" width="31" height="105">
+  <object name="trigger1-1" type="trigger1-1" x="102" y="714" width="31" height="105"/>
+  <object name="trigger2-1" type="trigger2-1" x="357" y="718" width="29" height="93"/>
+  <object name="trigger3-1" type="trigger3-1" x="516" y="707" width="28" height="117"/>
+  <object name="trigger4-1" type="trigger4-1" x="666" y="706" width="25" height="116"/>
+  <object name="triggerb-1" type="triggerb-1" x="300" y="656" width="45" height="24"/>
+  <object name="trigger5-1" type="trigger5-1" x="726" y="709" width="26" height="114"/>
+  <object name="win-zone" type="win-game" x="796" y="716" width="75" height="111"/>
+  <object name="win-zone" type="win-game" x="796" y="491" width="75" height="111"/>
+  <object name="win-zone" type="win-game" x="791" y="294" width="75" height="111"/>
+  <object name="win-zone" type="win-game" x="791" y="68" width="75" height="111"/>
+  <object name="trigger1-2" type="trigger1-2" x="103" y="486" width="31" height="105"/>
+  <object name="trigger2-2" type="trigger2-2" x="358" y="490" width="29" height="93"/>
+  <object name="trigger3-2" type="trigger3-2" x="517" y="479" width="28" height="117"/>
+  <object name="trigger4-2" type="trigger4-2" x="667" y="478" width="25" height="116"/>
+  <object name="triggerb-2" type="triggerb-2" x="304" y="442" width="37" height="31"/>
+  <object name="trigger5-2" type="trigger5-2" x="727" y="481" width="26" height="114"/>
+  <object name="trigger1-3" type="trigger1-3" x="104" y="297" width="31" height="105"/>
+  <object name="trigger2-3" type="trigger2-3" x="359" y="301" width="29" height="93"/>
+  <object name="trigger3-3" type="trigger3-3" x="518" y="290" width="28" height="117"/>
+  <object name="trigger4-3" type="trigger4-3" x="668" y="289" width="25" height="116"/>
+  <object name="triggerb-3" type="triggerb-3" x="297" y="241" width="47" height="24"/>
+  <object name="trigger5-3" type="trigger5-3" x="728" y="292" width="26" height="114"/>
+  <object name="trigger1-4" type="trigger1-4" x="104" y="71" width="31" height="105"/>
+  <object name="trigger2-4" type="trigger2-4" x="359" y="75" width="29" height="93"/>
+  <object name="trigger3-4" type="trigger3-4" x="518" y="64" width="28" height="117"/>
+  <object name="trigger4-4" type="trigger4-4" x="668" y="63" width="25" height="116"/>
+  <object name="triggerb-4" type="triggerb-4" x="303" y="22" width="31" height="34"/>
+  <object name="trigger5-4" type="trigger5-4" x="728" y="66" width="26" height="114"/>
+ </objectgroup>
+</map>
